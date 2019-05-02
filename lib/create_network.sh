@@ -14,10 +14,10 @@ function generateKeyPair(){
 }
 
 function saveKeys(){
-    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' >> ${mNode}/node/keys/${mNode}.key
-    echo ${pubKey} >> ${mNode}/node/keys/${mNode}.pub
-    echo '{"data":{"bytes":"'${pKeyA}'"},"type":"unlocked"}' >> ${mNode}/node/keys/${mNode}a.key
-    echo ${pubKeyA} >> ${mNode}/node/keys/${mNode}a.pub
+    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${mNode}/node/keys/${mNode}.key
+    echo ${pubKey} > ${mNode}/node/keys/${mNode}.pub
+    echo '{"data":{"bytes":"'${pKeyA}'"},"type":"unlocked"}' > ${mNode}/node/keys/${mNode}a.key
+    echo ${pubKeyA} > ${mNode}/node/keys/${mNode}a.pub
 } 
 
 #function to create node initialization script
