@@ -13,6 +13,13 @@ function generateKeyPair(){
 
 }
 
+function saveKeys(){
+    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${mNode}/node/keys/${mNode}.key
+    echo ${pubKey} > ${mNode}/node/keys/${mNode}.pub
+    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${mNode}/node/keys/${mNode}a.key
+    echo ${pubKey} > ${mNode}/node/keys/${mNode}a.pub
+} 
+
 #function to create node initialization script
 function createInitNodeScript(){
     cp lib/master/init_template.sh ${mNode}/init.sh
@@ -127,7 +134,17 @@ function readParameters() {
             mNode="$2"
             shift # past argument
             shift # past value                        
-            ;;            
+            ;;
+            -pk|--privKey)
+            pKey="$2"
+            shift # past argument
+            shift # past value
+            ;; 
+            -pubk|--pubKey)
+            pubKey="$2"
+            shift # past argument
+            shift # past value
+            ;;               
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -156,7 +173,13 @@ function main(){
     fi
         
     cleanup
-    generateKeyPair
+    
+    if [[ -z "$NON_INTERACTIVE" && -z "$pKey" && -z "$pubKey" ]]; then
+        generateKeyPair
+    else 
+        saveKeys   
+    fi
+
     createInitNodeScript
     copyScripts
     generateEnode
