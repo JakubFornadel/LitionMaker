@@ -75,17 +75,7 @@ function readParameters() {
             pubKey="$2"
             shift # past argument
             shift # past value
-            ;;     
-            -pkA|--privKeyA)
-            pKeyA="$2"
-            shift # past argument
-            shift # past value
-            ;; 
-            -pubkA|--pubKeyA)
-            pubKeyA="$2"
-            shift # past argument
-            shift # past value
-            ;;      
+            ;;        
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -119,9 +109,6 @@ function readInputs(){
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node' "" pKey $RED
         getInputWithDefault 'Please enter public key of this node' "" pubKey $RED
-        getInputWithDefault 'Please enter private key A of this node' "" pKeyA $RED
-        getInputWithDefault 'Please enter public key A of this node' "" pubKeyA $RED
-    fi
     role="Unassigned"
     
 }
@@ -139,8 +126,8 @@ function readInputs(){
 function saveKeys(){
     echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${sNode}/node/keys/${sNode}.key
     echo ${pubKey} > ${sNode}/node/keys/${sNode}.pub
-    echo '{"data":{"bytes":"'${pKeyA}'"},"type":"unlocked"}' > ${sNode}/node/keys/${sNode}a.key
-    echo ${pubKeyA} > ${sNode}/node/keys/${sNode}a.pub
+    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${sNode}/node/keys/${sNode}a.key
+    echo ${pubKey} > ${sNode}/node/keys/${sNode}a.pub
 } 
 
 #function to create node initialization script
@@ -250,7 +237,7 @@ function main(){
     cleanup
     readInputs
 
-    if [[ -z "$pKey" && -z "$pubKey" && -z "$pKeyA" && -z "$pubKeyA" ]]; then
+    if [[ -z "$pKey" && -z "$pubKey" ]]; then
         generateKeyPair
     else 
         saveKeys
