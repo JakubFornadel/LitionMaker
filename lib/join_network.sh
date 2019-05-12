@@ -109,6 +109,7 @@ function readInputs(){
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node' "" pKey $RED
         getInputWithDefault 'Please enter public key of this node' "" pubKey $RED
+    fi    
     role="Unassigned"
     
 }
