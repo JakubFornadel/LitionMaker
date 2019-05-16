@@ -70,12 +70,7 @@ function readParameters() {
             pKey="$2"
             shift # past argument
             shift # past value
-            ;; 
-            -pubk|--pubKey)
-            pubKey="$2"
-            shift # past argument
-            shift # past value
-            ;;        
+            ;;   
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -108,7 +103,6 @@ function readInputs(){
         getInputWithDefault 'Please enter Node Manager Port of this node' $((raPort+1)) tgoPort $BLUE
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node' "" pKey $RED
-        getInputWithDefault 'Please enter public key of this node' "" pubKey $RED
     fi    
     role="Unassigned"
     
@@ -171,6 +165,20 @@ function createAccount(){
     fi
     mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
     rm -rf datadir
+}
+
+#function to import node accout and append it into genesis.json file
+function importAccount(){
+    echo ${pKey} > temp_key
+    sAccountAddress="$(geth --datadir datadir --password lib/slave/passwords.txt account import temp_key 2>> /dev/null)"
+    re="\{([^}]+)\}"
+    if [[ $sAccountAddress =~ $re ]];
+    then
+        sAccountAddress="0x"${BASH_REMATCH[1]};
+    fi
+    mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
+    rm -rf datadir
+    rm -rf temp_key
 }
 
 #function to create start node script without --raftJoinExisting flag
@@ -237,19 +245,16 @@ function main(){
     
     cleanup
     readInputs
-
-    if [[ -z "$pKey" && -z "$pubKey" ]]; then
-        generateKeyPair
-    else 
-        saveKeys
-    fi 
-   
+    generateKeyPair   
     createInitNodeScript
     generateEnode
     copyScripts
     createSetupConf
-    createAccount
-    
+    if [[ -z "$pKey" ]]; then
+        createAccount
+    else 
+        importAccount
+    fi  
 }
 
 main $@

@@ -106,6 +106,24 @@ function createAccount(){
     rm -rf datadir
 }
 
+function importAccount(){
+    echo ${pKey} > temp_key
+    mAccountAddress="$(geth --datadir datadir --password lib/master/passwords.txt account import temp_key 2>> /dev/null)"
+    re="\{([^}]+)\}"
+    if [[ $mAccountAddress =~ $re ]];
+    then
+        mAccountAddress="0x"${BASH_REMATCH[1]};
+    fi
+    cp datadir/keystore/* ${mNode}/node/qdata/keystore/${mNode}key
+    PATTERN="s|#mNodeAddress#|${mAccountAddress}|g"
+    PATTERN1="s|#CHAIN_ID#|${NET_ID}|g"
+    cat lib/master/genesis_template.json >> ${mNode}/node/genesis.json
+    sed -i $PATTERN ${mNode}/node/genesis.json
+    sed -i $PATTERN1 ${mNode}/node/genesis.json
+    rm -rf datadir
+    rm -rf temp_key
+}
+
 function cleanup(){
     rm -rf ${mNode}
     echo $mNode > .nodename
@@ -139,12 +157,7 @@ function readParameters() {
             pKey="$2"
             shift # past argument
             shift # past value
-            ;; 
-            -pubk|--pubKey)
-            pubKey="$2"
-            shift # past argument
-            shift # past value
-            ;;               
+            ;;             
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -170,20 +183,21 @@ function main(){
 
     if [ -z "$NON_INTERACTIVE" ]; then
         getInputWithDefault 'Please enter node name' "" mNode $GREEN
+        getInputWithDefault 'Please enter private key of this node' "" pKey $RED
     fi
         
     cleanup
-    
-    if [[ -z "$NON_INTERACTIVE" && -z "$pKey" && -z "$pubKey" ]]; then
-        generateKeyPair
-    else 
-        saveKeys   
-    fi
-
+    generateKeyPair
     createInitNodeScript
     copyScripts
     generateEnode
-    createAccount
+
+    if [[ -z "$NON_INTERACTIVE" && -z "$pKey" ]]; then
+        createAccount
+    else 
+        importAccount
+    fi
+    
     executeInit   
 }
 
