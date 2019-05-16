@@ -133,7 +133,12 @@ function createInitNodeScript(){
 
 #function to generate enode and create static-nodes.json file
 function generateEnode(){
-    bootnode -genkey nodekey
+    if [[ -z "$pKey" ]]; then
+        bootnode -genkey nodekey
+    else 
+        echo ${pKey} > nodekey
+    fi  
+    
     nodekey=$(cat nodekey)
     bootnode -nodekey nodekey 2>enode.txt &
     pid=$!
