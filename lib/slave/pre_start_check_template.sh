@@ -36,7 +36,7 @@ function requestGenesis(){
     timeout="Response Timed Out"
     urlG=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/genesis
 
-    echo -e $RED'\nJoin Request sent to '$MASTER_IP'. Waiting for approval...'$COLOR_END
+    echo -e $RED'\nJoin Request sent to '$urlG'. Waiting for approval...'$COLOR_END
 
     response=$(curl -s -X POST \
     --max-time 310 ${urlG} \
