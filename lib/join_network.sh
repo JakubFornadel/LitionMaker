@@ -108,7 +108,7 @@ function readInputs(){
         getInputWithDefault 'Please enter Node Manager Port of this node' $((raPort+1)) tgoPort $BLUE
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node(Empty->new key is generated)' "" pKey $RED
-        getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
+        getInputWithDefault 'Please enter existing chainId to connect to u in 0x... format' "" chainId $RED
     fi    
     role="Unassigned"
     
