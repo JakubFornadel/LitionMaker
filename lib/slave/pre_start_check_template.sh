@@ -45,8 +45,8 @@ function requestGenesis(){
        "enode-id":"'${enode}'",
        "ip-address":"'${CURRENT_IP}'",
        "nodename":"'${NODENAME}'",
-       "accPubKey":"'${ACC_PUBKEY}'",
-       "chainId":"'${CHAIN_ID}'",
+       "acc-pub-key":"'${ACC_PUBKEY}'",
+       "chain-id":"'${CHAIN_ID}'",
     }')
 
     if [ "$response" = "$pending" ]
