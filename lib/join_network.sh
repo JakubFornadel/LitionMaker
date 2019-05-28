@@ -71,6 +71,11 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;   
+            -cid|--chainId)
+            chainId="$2"
+            shift # past argument
+            shift # past value
+            ;;  
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -79,11 +84,11 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$wsPort" ]]; then
+    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$wsPort" && -z "$chainId" ]]; then
         return
     fi
 
-    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$wsPort" ]]; then
+    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$wsPort" || -z "$chainId" ]]; then
         help
     fi
 
@@ -102,7 +107,8 @@ function readInputs(){
         getInputWithDefault 'Please enter Raft Port of this node' $((cPort+1)) raPort $PINK
         getInputWithDefault 'Please enter Node Manager Port of this node' $((raPort+1)) tgoPort $BLUE
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
-        getInputWithDefault 'Please enter private key of this node' "" pKey $RED
+        getInputWithDefault 'Please enter private key of this node(Empty->new key is generated)' "" pKey $RED
+        getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
     fi    
     role="Unassigned"
     
@@ -212,6 +218,8 @@ function copyScripts(){
 
 function createSetupConf() {
     echo 'NODENAME='${sNode} > ${sNode}/setup.conf
+    echo 'ACC_PUBKEY='${sAccountAddress} >> ${sNode}/setup.conf
+    echo 'CHAIN_ID='${chainId} >> ${sNode}/setup.conf
     echo 'MASTER_IP='${pMainIp} >> ${sNode}/setup.conf
     echo 'WHISPER_PORT='${wPort} >> ${sNode}/setup.conf
     echo 'RAFT_PORT='${raPort} >> ${sNode}/setup.conf
@@ -254,12 +262,14 @@ function main(){
     createInitNodeScript
     generateEnode
     copyScripts
-    createSetupConf
+    
     if [[ -z "$pKey" ]]; then
         createAccount
     else 
         importAccount
     fi  
+
+    createSetupConf
 }
 
 main $@

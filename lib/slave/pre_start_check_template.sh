@@ -44,7 +44,9 @@ function requestGenesis(){
     -d '{
        "enode-id":"'${enode}'",
        "ip-address":"'${CURRENT_IP}'",
-       "nodename":"'${NODENAME}'"
+       "nodename":"'${NODENAME}'",
+       "accPubKey":"'${ACC_PUBKEY}'",
+       "chainId":"'${CHAIN_ID}'",
     }')
 
     if [ "$response" = "$pending" ]
@@ -134,6 +136,7 @@ function main(){
         echo -e '****************************************************************************************************************'
 
         echo -e '\e[1;32mSuccessfully created and started \e[0m'$NODENAME
+        echo -e '\e[1;32mConnected to the network with chainId \e[0m'$CHAIN_ID
         echo -e '\e[1;32mYou can send transactions to \e[0m'$CURRENT_IP:$RPC_PORT
         echo -e '\e[1;32mFor private transactions, use \e[0m'$publickey
         echo -e '\e[1;32mFor accessing Quorum Maker UI, please open the following from a web browser \e[0m'$uiUrl
