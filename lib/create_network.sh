@@ -71,26 +71,13 @@ function generateEnode(){
         echo ${pKey} > nodekey
     fi  
 
-    nodekey=$(cat nodekey)
-	bootnode -nodekey nodekey 2>enode.txt &
-	pid=$!
-	sleep 5
-	kill -9 $pid
-	wait $pid 2> /dev/null
-	re="enode:.*@"
-	enode=$(cat enode.txt)
-    
-    if [[ $enode =~ $re ]];
-    	then
-        Enode=${BASH_REMATCH[0]};
-    fi
-    
+	enode=$(bootnode -nodekey nodekey -writeaddress)
+        
     cp nodekey ${mNode}/node/qdata/geth/.
     cp lib/master/static-nodes_template.json ${mNode}/node/qdata/static-nodes.json
-    PATTERN="s|#eNode#|${Enode}|g"
+    PATTERN="s|#eNode#|${enode}|g"
     sed -i $PATTERN ${mNode}/node/qdata/static-nodes.json
 
-    rm enode.txt
     rm nodekey
 }
 
@@ -105,9 +92,14 @@ function createAccount(){
     cp datadir/keystore/* ${mNode}/node/qdata/keystore/${mNode}key
     PATTERN="s|#mNodeAddress#|${mAccountAddress}|g"
     PATTERN1="s|#CHAIN_ID#|${NET_ID}|g"
+    #BFT#
+    mExtraData="$(istanbul extra encode --validators ${mAccountAddress} | cut -d " " -f 4)"
+    PATTERN2="s|#mExtraData#|${mExtraData}|g"
+    #BFT#
     cat lib/master/genesis_template.json >> ${mNode}/node/genesis.json
     sed -i $PATTERN ${mNode}/node/genesis.json
     sed -i $PATTERN1 ${mNode}/node/genesis.json
+    sed -i $PATTERN2 ${mNode}/node/genesis.json
     rm -rf datadir
 }
 
@@ -122,9 +114,14 @@ function importAccount(){
     cp datadir/keystore/* ${mNode}/node/qdata/keystore/${mNode}key
     PATTERN="s|#mNodeAddress#|${mAccountAddress}|g"
     PATTERN1="s|#CHAIN_ID#|${NET_ID}|g"
+    #BFT#
+    mExtraData="$(istanbul extra encode --validators ${mAccountAddress} | cut -d " " -f 4)"
+    PATTERN2="s|#mExtraData#|${mExtraData}|g"
+    #BFT#
     cat lib/master/genesis_template.json >> ${mNode}/node/genesis.json
     sed -i $PATTERN ${mNode}/node/genesis.json
     sed -i $PATTERN1 ${mNode}/node/genesis.json
+    sed -i $PATTERN2 ${mNode}/node/genesis.json
     rm -rf datadir
     rm -rf temp_key
 }

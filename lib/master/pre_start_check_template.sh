@@ -31,11 +31,6 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;
-            --raft)
-            raPort="$2"
-            shift # past argument
-            shift # past value
-            ;;
             --nm)
             tgoPort="$2"
             shift # past argument
@@ -59,11 +54,11 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-    if [[ -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$wsPort" ]]; then
+    if [[ -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$tgoPort" && -z "$wsPort" ]]; then
         return
     fi
 
-    if [[ -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$wsPort" ]]; then
+    if [[ -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$tgoPort" || -z "$wsPort" ]]; then
         help
     fi
 
@@ -82,10 +77,8 @@ function readInputs(){
         getInputWithDefault 'Please enter Network Listening Port of this node' $((rPort+1)) wPort $GREEN
         
         getInputWithDefault 'Please enter Constellation Port of this node' $((wPort+1)) cPort $GREEN
-        
-        getInputWithDefault 'Please enter Raft Port of this node' $((cPort+1)) raPort $PINK
-        
-        getInputWithDefault 'Please enter Node Manager Port of this node' $((raPort+1)) tgoPort $BLUE
+                
+        getInputWithDefault 'Please enter Node Manager Port of this node' $((cPort+1)) tgoPort $BLUE
 
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
             
@@ -97,12 +90,10 @@ function readInputs(){
     echo 'RPC_PORT='$rPort >> ./setup.conf
     echo 'WHISPER_PORT='$wPort >> ./setup.conf
     echo 'CONSTELLATION_PORT='$cPort >> ./setup.conf
-    echo 'RAFT_PORT='$raPort >> ./setup.conf
     echo 'THIS_NODEMANAGER_PORT='$tgoPort >>  ./setup.conf
     echo 'WS_PORT='$wsPort >>  ./setup.conf
         
     echo 'NETWORK_ID='$net >>  ./setup.conf
-    echo 'RAFT_ID='1 >>  ./setup.conf
     echo 'NODENAME='$nodeName >> ./setup.conf
     echo 'ROLE='$role >> ./setup.conf
     echo 'CONTRACT_ADD=' >> ./setup.conf
@@ -115,8 +106,6 @@ function readInputs(){
     sed -i $PATTERN node/start_${nodeName}.sh
     PATTERN="s/nodeIp/${pCurrentIp}/g"
     sed -i $PATTERN node/start_${nodeName}.sh
-    PATTERN="s/ra_Port/${raPort}/g"
-    sed -i $PATTERN node/start_${nodeName}.sh
     PATTERN="s/nm_Port/${tgoPort}/g"
     sed -i $PATTERN node/start_${nodeName}.sh
 }
@@ -126,11 +115,9 @@ function readInputs(){
 function staticNode(){
     PATTERN1="s/#CURRENT_IP#/$pCurrentIp/g"
     PATTERN2="s/#W_PORT#/${wPort}/g"
-    PATTERN3="s/#raftPprt#/${raPort}/g"
 
     sed -i "$PATTERN1" node/qdata/static-nodes.json
     sed -i "$PATTERN2" node/qdata/static-nodes.json
-    sed -i "$PATTERN3" node/qdata/static-nodes.json
 }
 
 function generateConstellationConf() {
