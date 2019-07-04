@@ -23,6 +23,17 @@ function updateNmcAddress(){
         
 }
 
+function requestEnode(){
+    urlG=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/peer
+
+    echo -e $RED'\nEnode Request sent to '$urlG'.'$COLOR_END
+
+    response=$(curl -s --max-time 310 ${urlG} | jq -r '.connectionInfo.enode')
+
+    PATTERN="s|#MASTER_ENODE#|${response}|g"
+    sed -i $PATTERN node/qdata/static-nodes.json 
+}
+
 # Function to send post call to java endpoint getGenesis 
 function requestGenesis(){
     pending="Pending user response"
@@ -111,6 +122,7 @@ function main(){
     
     if [ -z $NETWORK_ID ]; then
         enode=$(cat node/enode.txt)
+        requestEnode
         requestGenesis
         executeInit
         updateNmcAddress

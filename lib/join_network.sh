@@ -138,6 +138,9 @@ function generateEnode(){
     enode=$(bootnode -nodekey nodekey -writeaddress)
 
     Enode1='enode://'$enode'@'$pCurrentIp:$wPort?'discport=0'
+    cp lib/slave/static-nodes_template.json ${sNode}/node/qdata/static-nodes.json
+    PATTERN="s|#eNode#|${Enode1}|g"
+    sed -i $PATTERN ${sNode}/node/qdata/static-nodes.json
     echo $Enode1 > ${sNode}/node/enode.txt
     cp nodekey ${sNode}/node/qdata/geth/.
     rm enode.txt

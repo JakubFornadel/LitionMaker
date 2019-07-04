@@ -29,7 +29,7 @@ function upcheck() {
 }
 
 ENABLED_API="admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul"
-GLOBAL_ARGS="--permissioned --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi $ENABLED_API --emitcheckpoints"
+GLOBAL_ARGS="--nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi $ENABLED_API --emitcheckpoints"
 
 tessera="java -jar /tessera/tessera-app.jar"
 
