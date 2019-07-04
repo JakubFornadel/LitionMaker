@@ -46,11 +46,6 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;
-            --raft)
-            raPort="$2"
-            shift # past argument
-            shift # past value
-            ;;
             --nm)
             tgoPort="$2"
             shift # past argument
@@ -79,11 +74,11 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$wsPort" ]]; then
+    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$wPort" && -z "$cPort" && -z "$rPort" && -z "$tgoPort" && -z "$wsPort" ]]; then
         return
     fi
 
-    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$wsPort" ]]; then
+    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$wPort" || -z "$cPort" || -z "$rPort" || -z "$tgoPort" || -z "$wsPort" ]]; then
         help
     fi
 
@@ -99,8 +94,7 @@ function readInputs(){
         getInputWithDefault 'Please enter RPC Port of this node' 22000 rPort $GREEN
         getInputWithDefault 'Please enter Network Listening Port of this node' $((rPort+1)) wPort $GREEN
         getInputWithDefault 'Please enter Constellation Port of this node' $((wPort+1)) cPort $GREEN
-        getInputWithDefault 'Please enter Raft Port of this node' $((cPort+1)) raPort $PINK
-        getInputWithDefault 'Please enter Node Manager Port of this node' $((raPort+1)) tgoPort $BLUE
+        getInputWithDefault 'Please enter Node Manager Port of this node' $((cPort+1)) tgoPort $BLUE
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node' "" pKey $RED
     fi    
@@ -141,19 +135,9 @@ function generateEnode(){
     
     nodekey=$(cat nodekey)
     bootnode -nodekey nodekey 2>enode.txt &
-    pid=$!
-    sleep 5
-    kill -9 $pid
-    wait $pid 2> /dev/null
-    re="enode:.*@"
-    enode=$(cat enode.txt)
-    
-    if [[ $enode =~ $re ]];
-        then
-        Enode=${BASH_REMATCH[0]};
-    fi
-    disc='?discport=0&raftport='
-    Enode1=$Enode$pCurrentIp:$wPort$disc$raPort 
+    enode=$(bootnode -nodekey nodekey -writeaddress)
+
+    Enode1='enode://'$enode'@'$pCurrentIp:$wPort?'discport=0'
     echo $Enode1 > ${sNode}/node/enode.txt
     cp nodekey ${sNode}/node/qdata/geth/.
     rm enode.txt
@@ -214,7 +198,6 @@ function createSetupConf() {
     echo 'NODENAME='${sNode} > ${sNode}/setup.conf
     echo 'MASTER_IP='${pMainIp} >> ${sNode}/setup.conf
     echo 'WHISPER_PORT='${wPort} >> ${sNode}/setup.conf
-    echo 'RAFT_PORT='${raPort} >> ${sNode}/setup.conf
     echo 'RPC_PORT='${rPort} >> ${sNode}/setup.conf
     echo 'CONSTELLATION_PORT='${cPort} >> ${sNode}/setup.conf
     echo 'THIS_NODEMANAGER_PORT='${tgoPort} >> ${sNode}/setup.conf

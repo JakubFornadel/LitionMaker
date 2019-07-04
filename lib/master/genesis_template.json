@@ -6,6 +6,7 @@
         "eip155Block": 1,
         "eip158Block": 1,
         "byzantiumBlock": 1,
+        "constantinopleBlock": 0,
         "istanbul": {
             "epoch": 30000,
             "policy": 0

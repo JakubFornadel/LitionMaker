@@ -16,15 +16,9 @@ function updateNmcAddress(){
     }') 
     response=$(echo $response | tr -d \")
     echo $response > input.txt
-    RAFTV=$(awk -F':' '{ print $1 }' input.txt)
 
     contractAdd=$(awk -F':' '{ print $2 }' input.txt)
     updateProperty setup.conf CONTRACT_ADD $contractAdd
-
-    PATTERN="s/#raftId#/$RAFTV/g"
-    sed -i $PATTERN node/start_${NODENAME}.sh
-
-    echo 'RAFT_ID='$RAFTV >> setup.conf
     rm -f input.txt
         
 }
@@ -46,6 +40,8 @@ function requestGenesis(){
        "ip-address":"'${CURRENT_IP}'",
        "nodename":"'${NODENAME}'"
     }')
+
+    echo $response
 
     if [ "$response" = "$pending" ]
     then 
