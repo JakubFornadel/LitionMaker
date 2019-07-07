@@ -71,7 +71,8 @@ function generateEnode(){
         echo ${pKey} > nodekey
     fi  
 
-	enode=$(bootnode -nodekey nodekey -writeaddress)
+    nodekey=$(cat nodekey)
+    enode=$(bootnode -nodekey nodekey -writeaddress)
         
     cp nodekey ${mNode}/node/qdata/geth/.
     cp lib/master/static-nodes_template.json ${mNode}/node/qdata/static-nodes.json
