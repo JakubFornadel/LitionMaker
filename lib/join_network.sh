@@ -217,6 +217,7 @@ function createSetupConf() {
     echo 'CURRENT_IP='${pCurrentIp} >> ${sNode}/setup.conf
     echo 'REGISTERED=' >> ${sNode}/setup.conf
     echo 'MODE=ACTIVE' >> ${sNode}/setup.conf
+    echo 'ROLE=validator' >> ${sNode}/setup.conf
     echo 'STATE=I' >> ${sNode}/setup.conf
     
     if [ ! -z $tessera ]; then
