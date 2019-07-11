@@ -28,6 +28,9 @@ function upcheck() {
     done
 }
 
+#TODO: remove when pk handling is reworked
+PK=$(<qdata/geth/nodekey)
+
 ENABLED_API="admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,raft,istanbul"
 GLOBAL_ARGS="--nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi $ENABLED_API --emitcheckpoints"
 
@@ -44,6 +47,8 @@ echo "[*] geth --verbosity 6 --datadir qdata --permissioned --nodiscover --istan
 
 PRIVATE_CONFIG=qdata/$NODENAME.ipc geth --verbosity 6 --datadir qdata $GLOBAL_ARGS --rpccorsdomain "*" --port $W_PORT --ws --wsaddr 0.0.0.0 --wsport $WS_PORT --wsorigins '*' --wsapi $ENABLED_API --nat extip:$CURRENT_NODE_IP 
 
+
+
 cd /root/quorum-maker/
-# ./start_nodemanager.sh $R_PORT $NM_PORT
+./start_nodemanager.sh -r $R_PORT -g $NM_PORT -c $CHAIN_ID -m $MINING_FLAG -p $PK
     

@@ -13,13 +13,6 @@ function generateKeyPair(){
 
 }
 
-function saveKeys(){
-    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${mNode}/node/keys/${mNode}.key
-    echo ${pubKey} > ${mNode}/node/keys/${mNode}.pub
-    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${mNode}/node/keys/${mNode}a.key
-    echo ${pubKey} > ${mNode}/node/keys/${mNode}a.pub
-} 
-
 #function to create node initialization script
 function createInitNodeScript(){
     cp lib/master/init_template.sh ${mNode}/init.sh

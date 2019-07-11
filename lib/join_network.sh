@@ -118,13 +118,6 @@ function readInputs(){
     
  }
 
-function saveKeys(){
-    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${sNode}/node/keys/${sNode}.key
-    echo ${pubKey} > ${sNode}/node/keys/${sNode}.pub
-    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${sNode}/node/keys/${sNode}a.key
-    echo ${pubKey} > ${sNode}/node/keys/${sNode}a.pub
-} 
-
 #function to create node initialization script
 function createInitNodeScript(){
     cat lib/slave/init_template.sh > ${sNode}/init.sh
@@ -163,6 +156,8 @@ function createAccount(){
     fi
     mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
     rm -rf datadir
+    #TODO: remove when pk handling is reworked
+    chmod o+r ${sNode}/node/qdata/geth/nodekey
 }
 
 #function to import node accout and append it into genesis.json file
@@ -177,6 +172,8 @@ function importAccount(){
     mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
     rm -rf datadir
     rm -rf temp_key
+    #TODO: remove when pk handling is reworked
+    chmod o+r ${sNode}/node/qdata/geth/nodekey
 }
 
 #function to create start node script without --raftJoinExisting flag

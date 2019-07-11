@@ -51,19 +51,21 @@ function startNode(){
            -e NETID=$NETWORK_ID \
            -e MASTER_IP=$MASTER_IP \
            -e MC_PORT=$MASTER_CONSTELLATION_PORT \
+           -e CHAIN_ID=$CHAIN_ID \
+           -e MINING_FLAG=$MINING_FLAG \
            $dockerImage ./start_$NODENAME.sh
 }
 
 function main(){
-    
-    docker run -it --rm -v $(pwd):/home  -w /${PWD##*}/home  \
-              $dockerImage node/pre_start_check.sh
+    echo "sme aj tu ? "
+    # docker run -it --rm -v $(pwd):/home  -w /${PWD##*}/home  \
+    #           $dockerImage node/pre_start_check.sh
 
     source setup.conf
 
-    if [ -z $NETWORK_ID ]; then
-        exit
-    fi
+    # if [ -z $NETWORK_ID ]; then
+    #     exit
+    # fi
 
     readParameters $@
 
@@ -72,6 +74,11 @@ function main(){
     else
 	    DOCKER_FLAG="-d"
     fi 		
+
+    MINING_FLAG=false
+    if [ -n $ROLE ] && [[ $ROLE == "validator" ]]; then
+        MINING_FLAG=true
+    fi
 
     startNode
 }
