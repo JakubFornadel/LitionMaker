@@ -121,7 +121,7 @@ function importAccount(){
     rm -rf datadir
     rm -rf temp_key
     #TODO: remove when pk handling is reworked
-    chmod o+r ${sNode}/node/qdata/geth/nodekey
+    chmod o+r ${mNode}/node/qdata/geth/nodekey
 }
 
 function cleanup(){
