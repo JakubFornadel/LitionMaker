@@ -47,4 +47,4 @@ echo "[*] geth --verbosity 6 --datadir qdata" $GLOBAL_ARGS" --rpcport "$R_PORT "
 
 PRIVATE_CONFIG=qdata/$NODE_NAME.ipc geth --verbosity 6 --datadir qdata $GLOBAL_ARGS --rpccorsdomain "*" --rpcport $R_PORT --port $W_PORT --ws --wsaddr 0.0.0.0 --wsport $WS_PORT --wsorigins '*' --wsapi $ENABLED_API --nat extip:$CURRENT_NODE_IP 2>>qdata/gethLogs/${NODE_NAME}.log &
 
-./nodemanager.sh -r $R_PORT -g $NODE_MANAGER_PORT -c $CHAIN_ID -m $MINING_FLAG -p $PK
+./start_nodemanager.sh -r $R_PORT -g $NODE_MANAGER_PORT -c $CHAIN_ID -m $MINING_FLAG -p $PK
