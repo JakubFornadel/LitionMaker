@@ -55,10 +55,8 @@ function main(){
 	    DOCKER_FLAG="-d"
     fi 	
 
+    # Attached node is not mining
     MINING_FLAG=false
-    if [ -n $ROLE ] && [[ $ROLE == "validator" ]]; then
-        MINING_FLAG=true
-    fi
 
     startNode
 }

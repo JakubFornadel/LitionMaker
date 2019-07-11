@@ -74,10 +74,8 @@ function main(){
 	    DOCKER_FLAG="-d"
     fi 		
 
-    MINING_FLAG=false
-    if [ -n $ROLE ] && [[ $ROLE == "validator" ]]; then
-        MINING_FLAG=true
-    fi
+    # Validator(joined) is always mining
+    MINING_FLAG=true
 
     startNode
 }

@@ -73,10 +73,8 @@ function main(){
 	    DOCKER_FLAG="-d"
     fi 	
 
-    MINING_FLAG=false
-    if [ -n $ROLE ] && [[ $ROLE == "validator" ]]; then
-        MINING_FLAG=true
-    fi
+    # Creator is always mining
+    MINING_FLAG=true
 
     startNode
 }
