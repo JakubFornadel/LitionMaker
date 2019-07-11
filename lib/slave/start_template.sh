@@ -39,7 +39,6 @@ function startNode(){
            -p $WHISPER_PORT:$WHISPER_PORT \
            -p $WHISPER_PORT:$WHISPER_PORT/udp \
            -p $CONSTELLATION_PORT:$CONSTELLATION_PORT \
-           -p $RAFT_PORT:$RAFT_PORT \
            -p $THIS_NODEMANAGER_PORT:$THIS_NODEMANAGER_PORT\
            -p $WS_PORT:$WS_PORT \
            -e NODENAME=$NODENAME \
@@ -47,18 +46,17 @@ function startNode(){
            -e R_PORT=$RPC_PORT \
            -e W_PORT=$WHISPER_PORT \
            -e C_PORT=$CONSTELLATION_PORT \
-           -e RA_PORT=$RAFT_PORT \
            -e NM_PORT=$THIS_NODEMANAGER_PORT \
            -e WS_PORT=$WS_PORT \
            -e NETID=$NETWORK_ID \
-           -e RAFTID=$RAFT_ID \
            -e MASTER_IP=$MASTER_IP \
            -e MC_PORT=$MASTER_CONSTELLATION_PORT \
+           -e CHAIN_ID=$CHAIN_ID \
+           -e MINING_FLAG=$MINING_FLAG \
            $dockerImage ./start_$NODENAME.sh
 }
 
 function main(){
-    
     docker run -it --rm -v $(pwd):/home  -w /${PWD##*}/home  \
               $dockerImage node/pre_start_check.sh
 
@@ -75,6 +73,11 @@ function main(){
     else
 	    DOCKER_FLAG="-d"
     fi 		
+
+    MINING_FLAG=false
+    if [ -n $ROLE ] && [[ $ROLE == "validator" ]]; then
+        MINING_FLAG=true
+    fi
 
     startNode
 }

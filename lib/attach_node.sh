@@ -41,24 +41,11 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;
-            --raft)
-            raPort="$2"
-            shift # past argument
-            shift # past value
-            ;;
             --nm)
             tgoPort="$2"
             shift # past argument
             shift # past value
-            ;;
-            --active)
-            mode="ACTIVENI"
-            shift # past argument
-            ;;  
-            --passive)
-            mode="PASSIVE"
-            shift # past argument
-            ;;            
+            ;;          
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -67,11 +54,11 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-    if [[ -z "$sNode" && -z "$pCurrentIp" && -z "$publickey" && -z "$rPort" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$mode" ]]; then
+    if [[ -z "$sNode" && -z "$pCurrentIp" && -z "$publickey" && -z "$rPort" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$tgoPort" ]]; then
         return
     fi
 
-    if [[ -z "$sNode" || -z "$pCurrentIp" || -z "$publickey" || -z "$rPort" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$mode" ]]; then
+    if [[ -z "$sNode" || -z "$pCurrentIp" || -z "$publickey" || -z "$rPort" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$tgoPort" ]]; then
         help
     fi
 
@@ -87,15 +74,8 @@ function readInputs(){
         getInputWithDefault 'Please enter the RPC Port of Geth' 22000 rPort $GREEN
         getInputWithDefault 'Please enter the Network Listening Port of Geth' $((rPort+1)) wPort $GREEN
         getInputWithDefault 'Please enter the Constellation Port' $((wPort+1)) cPort $GREEN
-        getInputWithDefault 'Please enter the Raft Port' $((cPort+1)) raPort $PINK
-        getInputWithDefault 'Please enter the Node Manager Port of this node' $((raPort+1)) tgoPort $BLUE
-        getInputWithDefault 'Please enter the Attachment Mode of this node (1 for active and 2 for passive)' 1 mode $CYAN
-        
-        if [ "$mode" = "1" ]; then 
-            mode="ACTIVENI"
-        else
-            mode="PASSIVE"
-        fi 			    
+        getInputWithDefault 'Please enter the Node Manager Port of this node' $((cPort+1)) tgoPort $BLUE
+   
     fi
     
 }
@@ -115,7 +95,6 @@ function createStartNodeScript(){
 function createSetupScript() {
     echo 'NODENAME='${sNode} > ${sNode}/setup.conf
     echo 'WHISPER_PORT='${wPort} >> ${sNode}/setup.conf
-    echo 'RAFT_PORT='${raPort} >> ${sNode}/setup.conf
     echo 'RPC_PORT='${rPort} >> ${sNode}/setup.conf
     echo 'CONSTELLATION_PORT='${cPort} >> ${sNode}/setup.conf
     echo 'THIS_NODEMANAGER_PORT='${tgoPort} >> ${sNode}/setup.conf
@@ -124,8 +103,7 @@ function createSetupScript() {
     echo 'REGISTERED=' >> ${sNode}/setup.conf
     echo 'CONTRACT_ADD=' >> ${sNode}/setup.conf    
     echo 'MODE='${mode} >> ${sNode}/setup.conf
-    echo 'ROLE=Unassigned' >> ${sNode}/setup.conf
-    echo 'RAFT_ID=0' >> ${sNode}/setup.conf
+    echo 'ROLE=non-validator' >> ${sNode}/setup.conf
     echo 'STATE=NI' >> ${sNode}/setup.conf
 }
 

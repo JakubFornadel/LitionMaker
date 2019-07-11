@@ -16,17 +16,22 @@ function updateNmcAddress(){
     }') 
     response=$(echo $response | tr -d \")
     echo $response > input.txt
-    RAFTV=$(awk -F':' '{ print $1 }' input.txt)
 
     contractAdd=$(awk -F':' '{ print $2 }' input.txt)
     updateProperty setup.conf CONTRACT_ADD $contractAdd
-
-    PATTERN="s/#raftId#/$RAFTV/g"
-    sed -i $PATTERN node/start_${NODENAME}.sh
-
-    echo 'RAFT_ID='$RAFTV >> setup.conf
     rm -f input.txt
         
+}
+
+function requestEnode(){
+    urlG=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/peer
+
+    echo -e $RED'\nEnode Request sent to '$urlG'.'$COLOR_END
+
+    response=$(curl -s --max-time 310 ${urlG} | jq -r '.connectionInfo.enode')
+
+    PATTERN="s|#MASTER_ENODE#|${response}|g"
+    sed -i $PATTERN node/qdata/static-nodes.json 
 }
 
 # Function to send post call to java endpoint getGenesis 
@@ -48,6 +53,8 @@ function requestGenesis(){
        "acc-pub-key":"'${ACC_PUBKEY}'",
        "chain-id":"'${CHAIN_ID}'",
     }')
+
+    echo $response
 
     if [ "$response" = "$pending" ]
     then 
@@ -117,6 +124,7 @@ function main(){
     
     if [ -z $NETWORK_ID ]; then
         enode=$(cat node/enode.txt)
+        requestEnode
         requestGenesis
         executeInit
         updateNmcAddress

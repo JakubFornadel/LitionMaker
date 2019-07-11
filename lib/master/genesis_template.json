@@ -1,12 +1,16 @@
 {
   "config": {
         "chainId": #CHAIN_ID#,
-        "homesteadBlock": 0,
-        "byzantiumBlock": 1,
         "eip150Block": 1,
-        "eip155Block": 0,
         "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "eip155Block": 1,
         "eip158Block": 1,
+        "byzantiumBlock": 1,
+        "constantinopleBlock": 0,
+        "istanbul": {
+            "epoch": 30000,
+            "policy": 0
+        },
         "isQuorum": true
     },
   "alloc"      : {"#mNodeAddress#": {
@@ -14,11 +18,12 @@
     }
   },
   "coinbase"   : "0x0000000000000000000000000000000000000000",
-  "difficulty" : "0x0",
+  "difficulty" : "0x1",
   "extraData"  : "0x0000000000000000000000000000000000000000000000000000000000000000",
   "gasLimit"   : "0xE0000000",
   "nonce"      : "0x0",
-  "mixhash"    : "0x00000000000000000000000000000000000000647572616c65787365646c6578",
+  "mixhash"    : "0x63746963616c2062797a616e74696e65206661756c7420746f6c6572616e6365",
   "parentHash" : "0x0000000000000000000000000000000000000000000000000000000000000000",
-  "timestamp"  : "0x00"
+  "timestamp"  : "0x00",
+  "extraData": "#mExtraData#"
 }

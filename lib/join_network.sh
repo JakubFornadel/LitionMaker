@@ -46,11 +46,6 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;
-            --raft)
-            raPort="$2"
-            shift # past argument
-            shift # past value
-            ;;
             --nm)
             tgoPort="$2"
             shift # past argument
@@ -104,11 +99,10 @@ function readInputs(){
         getInputWithDefault 'Please enter RPC Port of this node' 22000 rPort $GREEN
         getInputWithDefault 'Please enter Network Listening Port of this node' $((rPort+1)) wPort $GREEN
         getInputWithDefault 'Please enter Constellation Port of this node' $((wPort+1)) cPort $GREEN
-        getInputWithDefault 'Please enter Raft Port of this node' $((cPort+1)) raPort $PINK
-        getInputWithDefault 'Please enter Node Manager Port of this node' $((raPort+1)) tgoPort $BLUE
+        getInputWithDefault 'Please enter Node Manager Port of this node' $((cPort+1)) tgoPort $BLUE
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node(Empty->new key is generated)' "" pKey $RED
-        getInputWithDefault 'Please enter existing chainId to connect to u in 0x... format' "" chainId $RED
+        getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
     fi    
     role="Unassigned"
     
@@ -123,13 +117,6 @@ function readInputs(){
     mv ${sNode}*.*  ${sNode}/node/keys/.
     
  }
-
-function saveKeys(){
-    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${sNode}/node/keys/${sNode}.key
-    echo ${pubKey} > ${sNode}/node/keys/${sNode}.pub
-    echo '{"data":{"bytes":"'${pKey}'"},"type":"unlocked"}' > ${sNode}/node/keys/${sNode}a.key
-    echo ${pubKey} > ${sNode}/node/keys/${sNode}a.pub
-} 
 
 #function to create node initialization script
 function createInitNodeScript(){
@@ -147,19 +134,12 @@ function generateEnode(){
     
     nodekey=$(cat nodekey)
     bootnode -nodekey nodekey 2>enode.txt &
-    pid=$!
-    sleep 5
-    kill -9 $pid
-    wait $pid 2> /dev/null
-    re="enode:.*@"
-    enode=$(cat enode.txt)
-    
-    if [[ $enode =~ $re ]];
-        then
-        Enode=${BASH_REMATCH[0]};
-    fi
-    disc='?discport=0&raftport='
-    Enode1=$Enode$pCurrentIp:$wPort$disc$raPort 
+    enode=$(bootnode -nodekey nodekey -writeaddress)
+
+    Enode1='enode://'$enode'@'$pCurrentIp:$wPort?'discport=0'
+    cp lib/slave/static-nodes_template.json ${sNode}/node/qdata/static-nodes.json
+    PATTERN="s|#eNode#|${Enode1}|g"
+    sed -i $PATTERN ${sNode}/node/qdata/static-nodes.json
     echo $Enode1 > ${sNode}/node/enode.txt
     cp nodekey ${sNode}/node/qdata/geth/.
     rm enode.txt
@@ -176,6 +156,8 @@ function createAccount(){
     fi
     mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
     rm -rf datadir
+    #TODO: remove when pk handling is reworked
+    chmod o+r ${sNode}/node/qdata/geth/nodekey
 }
 
 #function to import node accout and append it into genesis.json file
@@ -190,6 +172,8 @@ function importAccount(){
     mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
     rm -rf datadir
     rm -rf temp_key
+    #TODO: remove when pk handling is reworked
+    chmod o+r ${sNode}/node/qdata/geth/nodekey
 }
 
 #function to create start node script without --raftJoinExisting flag
@@ -222,7 +206,6 @@ function createSetupConf() {
     echo 'CHAIN_ID='${chainId} >> ${sNode}/setup.conf
     echo 'MASTER_IP='${pMainIp} >> ${sNode}/setup.conf
     echo 'WHISPER_PORT='${wPort} >> ${sNode}/setup.conf
-    echo 'RAFT_PORT='${raPort} >> ${sNode}/setup.conf
     echo 'RPC_PORT='${rPort} >> ${sNode}/setup.conf
     echo 'CONSTELLATION_PORT='${cPort} >> ${sNode}/setup.conf
     echo 'THIS_NODEMANAGER_PORT='${tgoPort} >> ${sNode}/setup.conf
@@ -231,6 +214,7 @@ function createSetupConf() {
     echo 'CURRENT_IP='${pCurrentIp} >> ${sNode}/setup.conf
     echo 'REGISTERED=' >> ${sNode}/setup.conf
     echo 'MODE=ACTIVE' >> ${sNode}/setup.conf
+    echo 'ROLE=validator' >> ${sNode}/setup.conf
     echo 'STATE=I' >> ${sNode}/setup.conf
     
     if [ ! -z $tessera ]; then

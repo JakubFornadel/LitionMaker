@@ -39,6 +39,8 @@ function startNode(){
            -e CURRENT_NODE_IP=$CURRENT_IP \
            -e R_PORT=$RPC_PORT \
            -e NM_PORT=$THIS_NODEMANAGER_PORT \
+           -e CHAIN_ID=$CHAIN_ID \
+           -e MINING_FLAG=$MINING_FLAG \
            $dockerImage ./start_$NODENAME.sh
 }
 
@@ -52,6 +54,11 @@ function main(){
     else
 	    DOCKER_FLAG="-d"
     fi 	
+
+    MINING_FLAG=false
+    if [ -n $ROLE ] && [[ $ROLE == "validator" ]]; then
+        MINING_FLAG=true
+    fi
 
     startNode
 }
