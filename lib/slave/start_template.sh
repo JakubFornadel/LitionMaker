@@ -57,15 +57,14 @@ function startNode(){
 }
 
 function main(){
-    echo "sme aj tu ? "
-    # docker run -it --rm -v $(pwd):/home  -w /${PWD##*}/home  \
-    #           $dockerImage node/pre_start_check.sh
+    docker run -it --rm -v $(pwd):/home  -w /${PWD##*}/home  \
+              $dockerImage node/pre_start_check.sh
 
     source setup.conf
 
-    # if [ -z $NETWORK_ID ]; then
-    #     exit
-    # fi
+    if [ -z $NETWORK_ID ]; then
+        exit
+    fi
 
     readParameters $@
 

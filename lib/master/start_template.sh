@@ -47,6 +47,8 @@ function startNode(){
             -e WS_PORT=$WS_PORT \
             -e NETID=$NETWORK_ID \
             -e NODE_NAME=$NODENAME \
+            -e CHAIN_ID=$CHAIN_ID \
+            -e MINING_FLAG=$MINING_FLAG \
             $dockerImage ./start_${NODENAME}.sh
 }
 
@@ -70,6 +72,11 @@ function main(){
     else
 	    DOCKER_FLAG="-d"
     fi 	
+
+    MINING_FLAG=false
+    if [ -n $ROLE ] && [[ $ROLE == "validator" ]]; then
+        MINING_FLAG=true
+    fi
 
     startNode
 }
