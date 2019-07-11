@@ -1,2 +1,2 @@
-dockerImage=litiondev/bc-lition:l0.6.0-rc1_lition-constellation
+dockerImage=litiondev/bc-lition:0.2-rc1-bft
 DOCKER_NETWORK_IP=10.50.0.

@@ -71,6 +71,8 @@ function readInputs(){
     if [ -z "$NON_INTERACTIVE" ]; then
 
         getInputWithDefault 'Please enter IP Address of this node' "" pCurrentIp $RED
+
+        getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
         
         getInputWithDefault 'Please enter RPC Port of this node' 22000 rPort $GREEN
         
@@ -92,6 +94,8 @@ function readInputs(){
     echo 'CONSTELLATION_PORT='$cPort >> ./setup.conf
     echo 'THIS_NODEMANAGER_PORT='$tgoPort >>  ./setup.conf
     echo 'WS_PORT='$wsPort >>  ./setup.conf
+
+    echo 'CHAIN_ID='${chainId} >> ./setup.conf
         
     echo 'NETWORK_ID='$net >>  ./setup.conf
     echo 'NODENAME='$nodeName >> ./setup.conf

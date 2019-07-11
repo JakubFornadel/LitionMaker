@@ -181,7 +181,6 @@ function main(){
     if [ -z "$NON_INTERACTIVE" ]; then
         getInputWithDefault 'Please enter node name' "" mNode $GREEN
         getInputWithDefault 'Please enter private key of this node' "" pKey $RED
-        getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
     fi
         
     cleanup
