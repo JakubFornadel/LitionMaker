@@ -96,7 +96,7 @@ function createAccount(){
     sed -i $PATTERN2 ${mNode}/node/genesis.json
     rm -rf datadir
     #TODO: remove when pk handling is reworked
-    chmod o+r ${sNode}/node/qdata/geth/nodekey
+    chmod o+r ${mNode}/node/qdata/geth/nodekey
 }
 
 function importAccount(){
