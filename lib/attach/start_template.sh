@@ -33,7 +33,7 @@ function startNode(){
     
     docker run $DOCKER_FLAG --rm --name $NODENAME \
            -v $(pwd):/home \
-           -v $(pwd)/node/contracts:/root/quorum-maker/contracts \
+           -v $(pwd)/node/contracts:/root/lition-maker/contracts \
            -w /home/node  \
            -p $THIS_NODEMANAGER_PORT:$THIS_NODEMANAGER_PORT\
            -e CURRENT_NODE_IP=$CURRENT_IP \

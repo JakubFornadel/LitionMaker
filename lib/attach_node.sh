@@ -83,7 +83,7 @@ function readInputs(){
 #function to create start node script without --raftJoinExisting flag
 function createStartNodeScript(){
     
-    cp lib/attach/start_quorum_template.sh ${sNode}/node/start_${sNode}.sh
+    cp lib/attach/start_lition_template.sh ${sNode}/node/start_${sNode}.sh
     cp lib/attach/start_template.sh ${sNode}/start.sh
                 
     chmod +x ${sNode}/start.sh

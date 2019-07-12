@@ -33,7 +33,7 @@ function startNode(){
 
     docker run $DOCKER_FLAG --rm --name $NODENAME \
            -v $(pwd):/home \
-           -v $(pwd)/node/contracts:/root/quorum-maker/contracts \
+           -v $(pwd)/node/contracts:/root/lition-maker/contracts \
            -w /home/node  \
            -p $RPC_PORT:$RPC_PORT \
            -p $WHISPER_PORT:$WHISPER_PORT \
