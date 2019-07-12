@@ -49,6 +49,5 @@ PRIVATE_CONFIG=qdata/$NODENAME.ipc geth --verbosity 6 --datadir qdata $GLOBAL_AR
 
 
 cd /root/quorum-maker/
-echo "*******: $R_PORT"
 ./start_nodemanager.sh -r $R_PORT -g $NM_PORT -c $CHAIN_ID -m $MINING_FLAG -p $PK
     
