@@ -51,7 +51,7 @@ function requestGenesis(){
        "ip-address":"'${CURRENT_IP}'",
        "nodename":"'${NODENAME}'",
        "acc-pub-key":"'${ACC_PUBKEY}'",
-       "chain-id":"'${CHAIN_ID}'",
+       "chain-id":"'${CHAIN_ID}'"
     }')
 
     echo $response
