@@ -103,9 +103,7 @@ function readInputs(){
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node(Empty->new key is generated)' "" pKey $RED
         getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
-    fi    
-    role="Unassigned"
-    
+    fi        
 }
 
 #function to generate keyPair for node

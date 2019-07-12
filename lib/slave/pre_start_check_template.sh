@@ -136,8 +136,6 @@ function main(){
 
         publickey=$(cat node/keys/$NODENAME.pub)
         echo 'PUBKEY='$publickey >> setup.conf
-        role="Unassigned"
-        echo 'ROLE='$role >> setup.conf
 
         uiUrl="http://localhost:"$THIS_NODEMANAGER_PORT"/"
 
