@@ -77,6 +77,8 @@ function main(){
     # Validator(joined) is always mining
     MINING_FLAG=true
 
+    echo "***dockerImage: $dockerImage"
+
     startNode
 }
 main $@
