@@ -40,13 +40,9 @@ function updateNmcAddress(){
     }')     
     checkResponse "$response"
     echo $response
-    
-    response=$(echo $response | tr -d \")
-    echo $response > input.txt
 
-    contractAdd=$(awk -F':' '{ print $2 }' input.txt)
+    contractAdd=$(echo "$response" | jq -r '.nmcAddress')
     updateProperty setup.conf CONTRACT_ADD $contractAdd
-    rm -f input.txt
 }
 
 function requestEnode(){
@@ -135,7 +131,7 @@ function main(){
         requestEnode
         requestGenesis
         executeInit
-        updateNmcAddress
+        # updateNmcAddress
         generateConstellationConf
         
         if [ ! -z $TESSERA ]; then
