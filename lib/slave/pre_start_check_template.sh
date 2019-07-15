@@ -131,7 +131,7 @@ function main(){
         requestEnode
         requestGenesis
         executeInit
-        # updateNmcAddress
+        updateNmcAddress
         generateConstellationConf
         
         if [ ! -z $TESSERA ]; then
