@@ -93,16 +93,16 @@ function readParameters() {
 function readInputs(){  
     
     if [ -z "$NON_INTERACTIVE" ]; then   
-        getInputWithDefault 'Please enter IP Address of existing node' "" pMainIp $RED
-        getInputWithDefault 'Please enter Node Manager Port of existing node' "" mgoPort $YELLOW
-        getInputWithDefault 'Please enter IP Address of this node' "" pCurrentIp $RED
+        getInputWithDefault 'Please enter IP Address of existing node' "40.118.25.211" pMainIp $RED
+        getInputWithDefault 'Please enter Node Manager Port of existing node' "22003" mgoPort $YELLOW
+        getInputWithDefault 'Please enter IP Address of this node' "0.0.0.0" pCurrentIp $RED
         getInputWithDefault 'Please enter RPC Port of this node' 22000 rPort $GREEN
         getInputWithDefault 'Please enter Network Listening Port of this node' $((rPort+1)) wPort $GREEN
         getInputWithDefault 'Please enter Constellation Port of this node' $((wPort+1)) cPort $GREEN
         getInputWithDefault 'Please enter Node Manager Port of this node' $((cPort+1)) tgoPort $BLUE
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
-        getInputWithDefault 'Please enter private key of this node(Empty->new key is generated)' "" pKey $RED
-        getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
+        getInputWithDefault 'Please enter private key of this node(Empty->new key is generated)' 5C5D06D3A4F0EB0B90F703CF345C8B4FE209FB0958E884312962F3A24D8218FE pKey $RED
+        getInputWithDefault 'Please enter existing chainId to connect to' 0 chainId $RED
     fi        
 }
 

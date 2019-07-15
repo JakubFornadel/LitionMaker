@@ -2,25 +2,51 @@
 
 source node/common.sh
 
+function checkResponse(){
+    rejected="Access denied"
+    timeout="Response Timed Out"
+    internalError="Internal error"
+    
+    response=$1
+    if [ "$response" = "$rejected" ]
+    then
+        echo "Request to Join Network was rejected. Program exiting"
+        exit
+    elif [ "$response" = "$timeout" ]
+    then
+        echo "Waited too long for approval from Master node. Please try later. Program exiting"
+        exit
+    elif [ "$response" = "$internalError" ]
+    then
+        echo "Something went wrong on the Master node. Please try later. Program exiting"
+        exit    
+    elif [ "$response" = "" ]
+    then
+        echo "Unknown Error. Please check log. Program exiting"
+        exit
+    fi
+}
+
 # Function to send post call to go endpoint joinNode 
 function updateNmcAddress(){
-        
-    url=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/peer
-
+    url=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/nmcAddress
+    echo -e $RED'\nNetwork Manager address Request sent to '$urlG'.'$COLOR_END
+ 
     response=$(curl -s -X POST \
     --max-time 310 ${url} \
     -H "content-type: application/json" \
     -d '{
-       "enode-id":"'${enode}'",
-       "ip-address":"'${CURRENT_IP}'"
-    }') 
+       "acc-pub-key":"'${ACC_PUBKEY}'"
+    }')     
+    checkResponse "$response"
+    echo $response
+    
     response=$(echo $response | tr -d \")
     echo $response > input.txt
 
     contractAdd=$(awk -F':' '{ print $2 }' input.txt)
     updateProperty setup.conf CONTRACT_ADD $contractAdd
     rm -f input.txt
-        
 }
 
 function requestEnode(){
@@ -28,20 +54,20 @@ function requestEnode(){
 
     echo -e $RED'\nEnode Request sent to '$urlG'.'$COLOR_END
 
-    response=$(curl -s --max-time 310 ${urlG} | jq -r '.connectionInfo.enode')
+    response=$(curl -s --max-time 310 ${urlG})
+    checkResponse "$response"
+    echo $response
 
-    PATTERN="s|#MASTER_ENODE#|${response}|g"
+    enode=$(echo $response | jq -r '.connectionInfo.enode')
+    PATTERN="s|#MASTER_ENODE#|${enode}|g"
     sed -i $PATTERN node/qdata/static-nodes.json 
 }
 
 # Function to send post call to java endpoint getGenesis 
 function requestGenesis(){
-    pending="Pending user response"
-    rejected="Access denied"
-    timeout="Response Timed Out"
     urlG=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/genesis
 
-    echo -e $RED'\nJoin Request sent to '$urlG'. Waiting for approval...'$COLOR_END
+    echo -e $RED'\nJoin Request sent to '$urlG'.'$COLOR_END
 
     response=$(curl -s -X POST \
     --max-time 310 ${urlG} \
@@ -53,27 +79,10 @@ function requestGenesis(){
        "acc-pub-key":"'${ACC_PUBKEY}'",
        "chain-id":"'${CHAIN_ID}'"
     }')
-
+    checkResponse "$response"
     echo $response
 
-    if [ "$response" = "$pending" ]
-    then 
-        echo "Previous request for Joining Network is still pending. Please try later. Program exiting" 
-        exit
-    elif [ "$response" = "$rejected" ]
-    then
-        echo "Request to Join Network was rejected. Program exiting"
-        exit
-    elif [ "$response" = "$timeout" ]
-    then
-        echo "Waited too long for approval from Master node. Please try later. Program exiting"
-        exit
-    elif [ "$response" = "" ]
-    then
-        echo "Unknown Error. Please check log. Program exiting"
-        exit
-    else
-        echo $response > input1.json
+    echo $response > input1.json
 	declare -A replyMap
 	while IFS="=" read -r key value
 	do
@@ -85,8 +94,7 @@ function requestGenesis(){
 	echo 'MASTER_CONSTELLATION_PORT='$MASTER_CONSTELLATION_PORT >>  setup.conf
 	echo 'NETWORK_ID='${replyMap[netID]} >>  setup.conf
 	echo ${replyMap[genesis]}  > node/genesis.json
-        rm -f input1.json
-    fi
+    rm -f input1.json
 }
 
 function generateConstellationConf() {
