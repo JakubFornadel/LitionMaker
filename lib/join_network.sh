@@ -71,6 +71,11 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;  
+            --validator)
+            validator="true"
+            shift # past argument
+            shift # past value
+            ;; 
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -213,7 +218,13 @@ function createSetupConf() {
     echo 'CURRENT_IP='${pCurrentIp} >> ${sNode}/setup.conf
     echo 'REGISTERED=' >> ${sNode}/setup.conf
     echo 'MODE=ACTIVE' >> ${sNode}/setup.conf
-    echo 'ROLE=validator' >> ${sNode}/setup.conf
+    
+    if [ ! -z $validator ]; then
+        echo 'ROLE=validator' >> ${sNode}/setup.conf    
+    else
+        echo 'ROLE=non-validator' >> ${sNode}/setup.conf
+    fi
+
     echo 'STATE=I' >> ${sNode}/setup.conf
     
     if [ ! -z $tessera ]; then
