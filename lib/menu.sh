@@ -84,7 +84,7 @@ function main() {
 		1)
 			lib/create_network.sh $@;;
 		2)
-			lib/join_network.sh --miner $@;;
+			lib/join_network.sh --validator $@;;
 		3)
 			lib/join_network.sh $@;; 
 		4)
