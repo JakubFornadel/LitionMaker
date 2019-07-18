@@ -40,10 +40,6 @@ function readParameters() {
             option="3"
             shift # past argument            
             ;;
-			dev)
-            option="4"
-            shift # past argument            
-            ;;
             -h|--help)
             help
             
@@ -56,7 +52,7 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-	if [[ ! -z $option && $option -lt 1 || $option -gt 4 ]]; then 		
+	if [[ ! -z $option && $option -lt 1 || $option -gt 3 ]]; then 		
 		help
 	fi
 	
@@ -75,10 +71,9 @@ function main() {
 		flagmain=true
 		echo -e $YELLOW'Please select an option: \n' \
 				$GREEN'1) Create Network \n' \
-				$PINK'2) Join Network \n' \
-				$BLUE'3) Attach to an existing Node \n' \
-				$CYAN'4) Setup Development/Test Network \n' \
-				$RED'5) Exit' 
+				$PINK'2) Join Network as a validator\n' \
+				$BLUE'3) Join Network\n' \
+				$RED'4) Exit' 
 
 		printf $WHITE'option: '$COLOR_END
 
@@ -89,12 +84,10 @@ function main() {
 		1)
 			lib/create_network.sh $@;;
 		2)
-			lib/join_network.sh $@;;
+			lib/join_network.sh --miner$@;;
 		3)
-			lib/attach_node.sh $@;; 
+			lib/join_network.sh $@;; 
 		4)
-			lib/create_dev_network.sh $@;;
-		5)
 			flagmain=false	;;
 		*)
 			echo "Please enter a valid option"	;;
