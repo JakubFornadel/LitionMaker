@@ -149,8 +149,8 @@ function main(){
         echo -e '\e[1;32mConnected to the network with chainId \e[0m'$CHAIN_ID
         echo -e '\e[1;32mYou can send transactions to \e[0m'$CURRENT_IP:$RPC_PORT
         echo -e '\e[1;32mFor private transactions, use \e[0m'$publickey
-        echo -e '\e[1;32mFor accessing Quorum Maker UI, please open the following from a web browser \e[0m'$uiUrl
-        echo -e '\e[1;32mTo join this node from a different host, please run Quorum Maker and choose option to run Join Network\e[0m'
+        echo -e '\e[1;32mFor accessing Lition Maker UI, please open the following from a web browser \e[0m'$uiUrl
+        echo -e '\e[1;32mTo join this node from a different host, please run Lition Maker and choose option to run Join Network\e[0m'
         echo -e '\e[1;32mWhen asked, enter \e[0m'$CURRENT_IP '\e[1;32mfor Existing Node IP and \e[0m'$THIS_NODEMANAGER_PORT '\e[1;32mfor Node Manager port\e[0m'
 
         echo -e '****************************************************************************************************************'

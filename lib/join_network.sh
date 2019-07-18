@@ -182,7 +182,7 @@ function importAccount(){
 
 #function to create start node script without --raftJoinExisting flag
 function copyScripts(){
-    cp lib/slave/start_quorum_template.sh ${sNode}/node/start_${sNode}.sh
+    cp lib/slave/start_lition_template.sh ${sNode}/node/start_${sNode}.sh
     
     cp lib/slave/start_template.sh ${sNode}/start.sh
                 

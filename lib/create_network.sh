@@ -23,7 +23,7 @@ function createInitNodeScript(){
 function copyScripts(){
     NET_ID=$(awk -v min=10000 -v max=99999 -v freq=1 'BEGIN{srand(); for(i=0;i<freq;i++)print int(min+rand()*(max-min+1))}')
     
-    cp lib/master/start_quorum_template.sh ${mNode}/node/start_${mNode}.sh
+    cp lib/master/start_lition_template.sh ${mNode}/node/start_${mNode}.sh
     chmod +x ${mNode}/node/start_${mNode}.sh
 
     cp lib/master/start_template.sh ${mNode}/start.sh

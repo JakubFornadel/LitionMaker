@@ -36,7 +36,7 @@ function main(){
         waitForMaster
     fi
 
-    cd /root/quorum-maker/
+    cd /root/lition-maker/
     ./start_nodemanager.sh 22000 22004
 }
 main

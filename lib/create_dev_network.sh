@@ -43,7 +43,7 @@ function generateKeyPair(){
 function copyStartTemplate(){
     
     PATTERN="s|#network_Id_value#|${NET_ID}|g"
-    cp lib/dev/start_quorum_template.sh $projectName/node$1/node/start_node$1.sh
+    cp lib/dev/start_lition_template.sh $projectName/node$1/node/start_node$1.sh
     sed -i $PATTERN $projectName/node$1/node/start_node$1.sh
     PATTERN="s/#mNode#/node$1/g"
     sed -i $PATTERN $projectName/node$1/node/start_node$1.sh

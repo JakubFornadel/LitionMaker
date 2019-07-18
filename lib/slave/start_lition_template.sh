@@ -58,6 +58,6 @@ fi
 PRIVATE_CONFIG=qdata/$NODENAME.ipc geth --verbosity 6 --datadir qdata $GLOBAL_ARGS --rpccorsdomain "*" --rpcport $R_PORT --port $W_PORT --ws --wsaddr 0.0.0.0 --wsport $WS_PORT --wsorigins '*' --wsapi $ENABLED_API --nat extip:$CURRENT_NODE_IP 2>>qdata/gethLogs/${NODENAME}.log &
 
 
-cd /root/quorum-maker/
+cd /root/lition-maker/
 ./start_nodemanager.sh -r $R_PORT -g $NM_PORT -c $CHAIN_ID -m $MINING_FLAG -p $PK
     
