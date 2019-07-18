@@ -71,6 +71,11 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;  
+            --validator)
+            validator="true"
+            shift # past argument
+            shift # past value
+            ;; 
             *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -103,9 +108,8 @@ function readInputs(){
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
         getInputWithDefault 'Please enter private key of this node(Empty->new key is generated)' "" pKey $RED
         getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
-    fi    
-    role="Unassigned"
-    
+    fi 
+      
 }
 
 #function to generate keyPair for node
@@ -138,8 +142,8 @@ function generateEnode(){
 
     Enode1='enode://'$enode'@'$pCurrentIp:$wPort?'discport=0'
     cp lib/slave/static-nodes_template.json ${sNode}/node/qdata/static-nodes.json
-    PATTERN="s|#eNode#|${Enode1}|g"
-    sed -i $PATTERN ${sNode}/node/qdata/static-nodes.json
+    # PATTERN="s|#eNode#|${Enode1}|g"
+    # sed -i $PATTERN ${sNode}/node/qdata/static-nodes.json
     echo $Enode1 > ${sNode}/node/enode.txt
     cp nodekey ${sNode}/node/qdata/geth/.
     rm enode.txt
@@ -214,7 +218,13 @@ function createSetupConf() {
     echo 'CURRENT_IP='${pCurrentIp} >> ${sNode}/setup.conf
     echo 'REGISTERED=' >> ${sNode}/setup.conf
     echo 'MODE=ACTIVE' >> ${sNode}/setup.conf
-    echo 'ROLE=validator' >> ${sNode}/setup.conf
+    
+    if [ ! -z $validator ]; then
+        echo 'ROLE=validator' >> ${sNode}/setup.conf    
+    else
+        echo 'ROLE=non-validator' >> ${sNode}/setup.conf
+    fi
+
     echo 'STATE=I' >> ${sNode}/setup.conf
     
     if [ ! -z $tessera ]; then

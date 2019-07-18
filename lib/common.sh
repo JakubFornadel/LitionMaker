@@ -113,7 +113,6 @@ function help(){
     echo "./setup.sh create -n master --ip 10.0.2.15 -r 22000 -w 22001 -c 22002 --nm 22004 --ws 22005"
     echo ""
     echo -e $PINK'For join command:'$COLOR_END
-    echo "  "
     echo "  -n, --name              Name of the node to be created"
     echo "  --oip                   IP address of the other node (IP of the existing node)"
     echo "  --onm                   Node Manager port of the other node"
@@ -142,7 +141,7 @@ function help(){
     echo "  --passive               Passive attachment mode"
     echo ""
     echo "E.g."
-    echo "./setup.sh attach -n slave1 --ip 10.0.2.15 --pk BULeR8JyUWhiuuCMU/HLA0Q5pzkYT+cHII3ZKBey3Bo= -r 22000 --whisper 21000 --constellation 9001 --nm 11004 --active"
+    echo "./setup.sh attach  -n slave1 --oip 10.0.2.15 --onm 22004 --tip 10.0.2.15 -r 23000 -w 23001 -c 23002 --nm 23004 --ws 23005"
     echo ""
     echo -e $CYAN'For dev command:'$COLOR_END
     echo "  -p, --project           Project Name"

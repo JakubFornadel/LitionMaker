@@ -85,12 +85,15 @@ function createAccount(){
     PATTERN1="s|#CHAIN_ID#|${NET_ID}|g"
     #BFT#
     mExtraData="$(istanbul extra encode --validators ${mAccountAddress} | cut -d " " -f 4)"
+    mTimeStamp="$(istanbul setup | tail -n +2 | jq -r .timestamp)"
     PATTERN2="s|#mExtraData#|${mExtraData}|g"
+    PATTERN3="s|#mTimeStamp#|${mTimeStamp}|g"
     #BFT#
     cat lib/master/genesis_template.json >> ${mNode}/node/genesis.json
     sed -i $PATTERN ${mNode}/node/genesis.json
     sed -i $PATTERN1 ${mNode}/node/genesis.json
     sed -i $PATTERN2 ${mNode}/node/genesis.json
+    sed -i $PATTERN3 ${mNode}/node/genesis.json
     rm -rf datadir
     #TODO: remove when pk handling is reworked
     chmod o+r ${mNode}/node/qdata/geth/nodekey
@@ -109,12 +112,15 @@ function importAccount(){
     PATTERN1="s|#CHAIN_ID#|${NET_ID}|g"
     #BFT#
     mExtraData="$(istanbul extra encode --validators ${mAccountAddress} | cut -d " " -f 4)"
+    mTimeStamp="$(istanbul setup | tail -n +2 | jq -r .timestamp)"
     PATTERN2="s|#mExtraData#|${mExtraData}|g"
+    PATTERN3="s|#mTimeStamp#|${mTimeStamp}|g"
     #BFT#
     cat lib/master/genesis_template.json >> ${mNode}/node/genesis.json
     sed -i $PATTERN ${mNode}/node/genesis.json
     sed -i $PATTERN1 ${mNode}/node/genesis.json
     sed -i $PATTERN2 ${mNode}/node/genesis.json
+    sed -i $PATTERN3 ${mNode}/node/genesis.json
     rm -rf datadir
     rm -rf temp_key
     #TODO: remove when pk handling is reworked
