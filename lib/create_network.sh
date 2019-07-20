@@ -65,6 +65,7 @@ function generateEnode(){
     enode=$(bootnode -nodekey nodekey -writeaddress)
         
     cp nodekey ${mNode}/node/qdata/geth/.
+    chmod o+r ${mNode}/node/qdata/geth/nodekey
     cp lib/master/static-nodes_template.json ${mNode}/node/qdata/static-nodes.json
     PATTERN="s|#eNode#|${enode}|g"
     sed -i $PATTERN ${mNode}/node/qdata/static-nodes.json
@@ -95,8 +96,6 @@ function createAccount(){
     sed -i $PATTERN2 ${mNode}/node/genesis.json
     sed -i $PATTERN3 ${mNode}/node/genesis.json
     rm -rf datadir
-    #TODO: remove when pk handling is reworked
-    chmod o+r ${mNode}/node/qdata/geth/nodekey
 }
 
 function importAccount(){
@@ -123,8 +122,6 @@ function importAccount(){
     sed -i $PATTERN3 ${mNode}/node/genesis.json
     rm -rf datadir
     rm -rf temp_key
-    #TODO: remove when pk handling is reworked
-    chmod o+r ${mNode}/node/qdata/geth/nodekey
 }
 
 function cleanup(){

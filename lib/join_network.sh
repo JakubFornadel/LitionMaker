@@ -146,6 +146,7 @@ function generateEnode(){
     # sed -i $PATTERN ${sNode}/node/qdata/static-nodes.json
     echo $Enode1 > ${sNode}/node/enode.txt
     cp nodekey ${sNode}/node/qdata/geth/.
+    chmod o+r ${sNode}/node/qdata/geth/nodekey
     rm enode.txt
     rm nodekey
 }
@@ -159,9 +160,7 @@ function createAccount(){
         sAccountAddress="0x"${BASH_REMATCH[1]};
     fi
     mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
-    rm -rf datadir
-    #TODO: remove when pk handling is reworked
-    chmod o+r ${sNode}/node/qdata/geth/nodekey
+    rm -rf datadir    
 }
 
 #function to import node accout and append it into genesis.json file
@@ -176,8 +175,6 @@ function importAccount(){
     mv datadir/keystore/* ${sNode}/node/qdata/keystore/${sNode}key
     rm -rf datadir
     rm -rf temp_key
-    #TODO: remove when pk handling is reworked
-    chmod o+r ${sNode}/node/qdata/geth/nodekey
 }
 
 #function to create start node script without --raftJoinExisting flag
