@@ -30,7 +30,7 @@ function checkResponse(){
 # Function to send post call to go endpoint joinNode 
 function updateNmcAddress(){
     url=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/nmcAddress
-    echo -e $RED'\nNetwork Manager address Request sent to '$urlG'.'$COLOR_END
+    echo -e $CYAN'Network Manager address Request sent to '$urlG'.'$COLOR_END
  
     response=$(curl -s -X POST \
     --max-time 310 ${url} \
@@ -39,7 +39,6 @@ function updateNmcAddress(){
        "acc-pub-key":"'${ACC_PUBKEY}'"
     }')     
     checkResponse "$response"
-    echo $response
 
     contractAdd=$(echo "$response" | jq -r '.nmcAddress')
     updateProperty setup.conf CONTRACT_ADD $contractAdd
@@ -48,22 +47,28 @@ function updateNmcAddress(){
 function requestEnode(){
     urlG=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/peer
 
-    echo -e $RED'\nEnode Request sent to '$urlG'.'$COLOR_END
+    echo -e $CYAN'\nEnode Request sent to '$urlG'.'$COLOR_END
 
     response=$(curl -s --max-time 310 ${urlG})
     checkResponse "$response"
-    echo $response
 
     enode=$(echo $response | jq -r '.connectionInfo.enode')
     PATTERN="s|#MASTER_ENODE#|${enode}|g"
     sed -i $PATTERN node/qdata/static-nodes.json 
+
+    chain_id=$(echo $response | jq -r '.chainId')
+
+    if [ ${chain_id} != ${CHAIN_ID} ]; then
+        echo -e $RED'\nYou are trying to connect to a network with different chain id '${chain_id}' !'$COLOR_END
+        exit 1;
+    fi
 }
 
 # Function to send post call to java endpoint getGenesis 
 function requestGenesis(){
     urlG=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/genesis
 
-    echo -e $RED'\nJoin Request sent to '$urlG'.'$COLOR_END
+    echo -e $CYAN'Join Request sent to '$urlG'.'$COLOR_END
 
     response=$(curl -s -X POST \
     --max-time 310 ${urlG} \
@@ -76,7 +81,6 @@ function requestGenesis(){
        "chain-id":"'${CHAIN_ID}'"
     }')
     checkResponse "$response"
-    echo $response
 
     echo $response > input1.json
 	declare -A replyMap
@@ -90,6 +94,7 @@ function requestGenesis(){
 	echo 'MASTER_CONSTELLATION_PORT='$MASTER_CONSTELLATION_PORT >>  setup.conf
 	echo 'NETWORK_ID='${replyMap[netID]} >>  setup.conf
 	echo ${replyMap[genesis]}  > node/genesis.json
+
     rm -f input1.json
 }
 
