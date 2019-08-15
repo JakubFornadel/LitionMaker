@@ -96,7 +96,7 @@ E.g.
 ```
 
 ## Further Reading
-More information can be found in the [Lition whitepaper](https://www.lition.io/docs/Lition_Whitepaper_V1.10.0_public.pdf) section "The Blockchain Infrastrcuture", page 6-29.
+More information can be found in the [Lition whitepaper](https://www.lition.io/docs/Lition_Whitepaper_V1.10.0_public.pdf) section "The Blockchain Infrastructure", page 6-29.
 
 ![Lition Pyramid](img/pyramid.png)
 
