@@ -32,11 +32,11 @@ function readParameters() {
             option="1"
             shift # past argument            
             ;;
-            join)
+            join_as_validator)
             option="2"
             shift # past argument            
             ;;
-			attach)
+			join)
             option="3"
             shift # past argument            
             ;;
