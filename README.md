@@ -1,6 +1,8 @@
 # Lition Maker V1.0
 
-Lition Maker is a tool that allows users to create and manage Lition side chains networks. It is based on [Synechron's Quorum Maker](https://github.com/synechron-finlabs/quorum-maker). Manually editing configuration files and creating nodes is a slow and error-prone process. Lition Maker can create any number of nodes of various configurations dynamically with reduced user input. This provides a wizard-like interface with a series of questions to guide the user when creating nodes. Lition Maker can create nodes to:
+Lition Maker is a tool that allows users to create and manage Lition side chains networks. It is based on [Synechron's Quorum Maker](https://github.com/synechron-finlabs/quorum-maker).
+
+Manually editing configuration files and creating nodes is a slow and error-prone process. Lition Maker can create any number of nodes of various configurations dynamically with reduced user input. This provides a wizard-like interface with a series of questions to guide the user when creating nodes. Lition Maker can create nodes to:
 
 - run with docker-compose (BFT consensus/Lition 1.0.0) for easy use in development environments; or,
 - nodes to be distributed on separate Linux boxes or cloud instances for a production environment (BFT consensus/Lition 1.0.0)
@@ -98,11 +100,16 @@ More information can be found in the [Lition whitepaper](https://www.lition.io/d
 
 ![Lition Pyramid](img/pyramid.png)
 
+## Official Docker Containers
+
+The official docker containers can be found under https://cloud.docker.com/u/litiondev/repository/docker/litiondev/bc-lition
+
 ## References 
 * [Lition](https://gitlab.com/lition/lition)
 * [Istanbul BFT Consensus Documentation](https://github.com/ethereum/EIPs/issues/650)
 * [Quorum](https://github.com/jpmorganchase/quorum)
 * [Quorum Maker](https://github.com/synechron-finlabs/quorum-maker)
+
 
 
 ## License
