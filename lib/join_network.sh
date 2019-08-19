@@ -214,15 +214,12 @@ function createSetupConf() {
     echo 'WS_PORT='${wsPort} >> ${sNode}/setup.conf
     echo 'CURRENT_IP='${pCurrentIp} >> ${sNode}/setup.conf
     echo 'REGISTERED=' >> ${sNode}/setup.conf
-    echo 'MODE=ACTIVE' >> ${sNode}/setup.conf
     
     if [ ! -z $validator ]; then
         echo 'ROLE=validator' >> ${sNode}/setup.conf    
     else
         echo 'ROLE=non-validator' >> ${sNode}/setup.conf
     fi
-
-    echo 'STATE=I' >> ${sNode}/setup.conf
     
     if [ ! -z $tessera ]; then
         echo 'TESSERA=true' >> ${sNode}/setup.conf        

@@ -7,7 +7,7 @@ Manually editing configuration files and creating nodes is a slow and error-pron
 - run with docker-compose (BFT consensus/Lition 1.0.0) for easy use in development environments; or,
 - nodes to be distributed on separate Linux boxes or cloud instances for a production environment (BFT consensus/Lition 1.0.0)
 
-![Lition Maker 1.0](img/screenshot1.png)
+![Lition Maker 1](img/screenshot1.png)
 
 ## Lition Maker provides the following benefits:
 
@@ -94,6 +94,11 @@ E.g.
 
 -h, --help              Display this help and exit
 ```
+
+Example output:
+
+![Lition Maker 2](img/screenshot2.png)
+
 
 ## Further Reading
 More information can be found in the [Lition whitepaper](https://www.lition.io/docs/Lition_Whitepaper_V1.10.0_public.pdf) section "The Blockchain Infrastructure", page 6-29.
