@@ -99,7 +99,7 @@ function readInputs(){
     
     if [ -z "$NON_INTERACTIVE" ]; then   
         getInputWithDefault 'Please enter IP Address of existing node' "" pMainIp $RED
-        getInputWithDefault 'Please enter Node Manager Port of existing node' "" mgoPort $YELLOW
+        getInputWithDefault 'Please enter Node Manager Port of existing node' 22003 mgoPort $YELLOW
         getInputWithDefault 'Please enter IP Address of this node' "" pCurrentIp $RED
         getInputWithDefault 'Please enter RPC Port of this node' 22000 rPort $GREEN
         getInputWithDefault 'Please enter Network Listening Port of this node' $((rPort+1)) wPort $GREEN
