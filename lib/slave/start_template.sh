@@ -52,6 +52,8 @@ function startNode(){
            -e MASTER_IP=$MASTER_IP \
            -e MC_PORT=$MASTER_CONSTELLATION_PORT \
            -e CHAIN_ID=$CHAIN_ID \
+           -e INFURA_URL=$INFURA_URL \
+           -e CONTRACT_ADDRESS=$CONTRACT_ADDRESS \
            -e MINING_FLAG=$MINING_FLAG \
            $dockerImage ./start_$NODENAME.sh
 }
