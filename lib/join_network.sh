@@ -204,6 +204,8 @@ function copyScripts(){
 function createSetupConf() {
     echo 'NODENAME='${sNode} > ${sNode}/setup.conf
     echo 'ACC_PUBKEY='${sAccountAddress} >> ${sNode}/setup.conf
+    echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ${sNode}/setup.conf
+    echo 'CONTRACT_ADDRESS=0xD754Dc0AF95a4f8615FC990344D9F7327042E658' >> ${sNode}/setup.conf
     echo 'CHAIN_ID='${chainId} >> ${sNode}/setup.conf
     echo 'MASTER_IP='${pMainIp} >> ${sNode}/setup.conf
     echo 'WHISPER_PORT='${wPort} >> ${sNode}/setup.conf

@@ -48,6 +48,8 @@ function startNode(){
             -e NETID=$NETWORK_ID \
             -e NODE_NAME=$NODENAME \
             -e CHAIN_ID=$CHAIN_ID \
+            -e INFURA_URL=$INFURA_URL \
+            -e CONTRACT_ADDRESS=$CONTRACT_ADDRESS \
             -e MINING_FLAG=$MINING_FLAG \
             $dockerImage ./start_${NODENAME}.sh
 }

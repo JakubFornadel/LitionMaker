@@ -32,7 +32,7 @@ function upcheck() {
 PK=$(<qdata/geth/nodekey)
 
 ENABLED_API="admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul"
-GLOBAL_ARGS="--istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi $ENABLED_API --emitcheckpoints"
+GLOBAL_ARGS="--istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi $ENABLED_API --emitcheckpoints --litaccvalidator.infuraurl $INFURA_URL --litaccvalidator.contract $CONTRACT_ADDRESS --litaccvalidator.chainid $CHAIN_ID" 
 
 tessera="java -jar /tessera/tessera-app.jar"
 
