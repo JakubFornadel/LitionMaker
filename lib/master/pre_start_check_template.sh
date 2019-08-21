@@ -69,22 +69,16 @@ function readParameters() {
 function readInputs(){   
     
     if [ -z "$NON_INTERACTIVE" ]; then
-
+        selectEthNetwork    'Please select ethereum network' ethNetwork $YELLOW
         getInputWithDefault 'Please enter IP Address of this node' "" pCurrentIp $RED
-
         getInputWithDefault 'Please enter existing chainId to connect to' "" chainId $RED
-        
         getInputWithDefault 'Please enter RPC Port of this node' 22000 rPort $GREEN
-        
         getInputWithDefault 'Please enter Network Listening Port of this node' $((rPort+1)) wPort $GREEN
-        
-        getInputWithDefault 'Please enter Constellation Port of this node' $((wPort+1)) cPort $GREEN
-                
+        getInputWithDefault 'Please enter Constellation Port of this node' $((wPort+1)) cPort $GREEN                
         getInputWithDefault 'Please enter Node Manager Port of this node' $((cPort+1)) tgoPort $BLUE
-
         getInputWithDefault 'Please enter WS Port of this node' $((tgoPort+1)) wsPort $GREEN
-            
     fi
+
     role="creator"
 	
     #append values in Setup.conf file 
@@ -94,11 +88,16 @@ function readInputs(){
     echo 'CONSTELLATION_PORT='$cPort >> ./setup.conf
     echo 'THIS_NODEMANAGER_PORT='$tgoPort >>  ./setup.conf
     echo 'WS_PORT='$wsPort >>  ./setup.conf
-
-    echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ./setup.conf
-    echo 'CONTRACT_ADDRESS=0xD754Dc0AF95a4f8615FC990344D9F7327042E658' >> ./setup.conf
-    echo 'CHAIN_ID='${chainId} >> ./setup.conf
-        
+    if [ $ethNetwork == "ropsten" ]; then
+      echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ./setup.conf
+      echo 'CONTRACT_ADDRESS=0xD754Dc0AF95a4f8615FC990344D9F7327042E658' >> ./setup.conf
+    elif [ $ethNetwork == "mainnet" ]; then
+      # TODO: add valid INFURA_URL and CONTRACT_ADDRESS on mainnet when it is supported 
+      # This else should never be entered is mainnet option is handled in selectEthNetwork
+      echo "Invalid ethereum network option: mainnet."
+      exit 1
+    fi
+    echo 'CHAIN_ID='${chainId} >> ./setup.conf  
     echo 'NETWORK_ID='$net >>  ./setup.conf
     echo 'NODENAME='$nodeName >> ./setup.conf
     echo 'ROLE='$role >> ./setup.conf
@@ -111,7 +110,7 @@ function readInputs(){
     PATTERN="s/nodeIp/${pCurrentIp}/g"
     sed -i $PATTERN node/start_${nodeName}.sh
     PATTERN="s/nm_Port/${tgoPort}/g"
-    sed -i $PATTERN node/start_${nodeName}.sh
+    sed -i $PATTERN node/start_${nodeName}.sh"1" 
 }
 
 

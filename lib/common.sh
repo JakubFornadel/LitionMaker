@@ -37,6 +37,39 @@ function getInputWithDefault() {
     eval $__resultvar="'$__newValue'"
 }
 
+function selectEthNetwork() {
+  local msg=$1
+  local __resultvar=$2
+  local __clr=$3
+  
+  if [ -z "$__clr" ]; then
+      __clr=$RED
+  fi
+
+  echo -e $__clr"$msg: [Enter for default -> Ropsten]\n" \
+      $GREEN'1) Ropsten \n' \
+      $PINK'2) Mainnet (not supported yet)'
+  printf $WHITE"option: "$COLOR_END
+  
+  read option
+  # Default is Ropsten
+  option=${option:-1}
+
+  case $option in
+  1)
+    echo "1 selected"
+    eval $__resultvar='ropsten';;
+  2)
+    echo "2 selected"
+    eval $__resultvar='mainnet'
+    echo $RED"Unable to continue as mainnet is not yet supported. Please select Ropsten !!!"$COLOR_END
+    exit 1;;
+  *)
+    echo "Please enter a valid option"
+    exit 1;;
+	esac
+}
+
 function updateProperty() {
     local file=$1
     local key=$2
