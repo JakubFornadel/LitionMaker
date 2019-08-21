@@ -110,7 +110,7 @@ function readInputs(){
     PATTERN="s/nodeIp/${pCurrentIp}/g"
     sed -i $PATTERN node/start_${nodeName}.sh
     PATTERN="s/nm_Port/${tgoPort}/g"
-    sed -i $PATTERN node/start_${nodeName}.sh"1" 
+    sed -i $PATTERN node/start_${nodeName}.sh
 }
 
 
