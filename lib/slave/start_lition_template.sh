@@ -28,34 +28,46 @@ function upcheck() {
     done
 }
 
-#TODO: remove when pk handling is reworked
 PK=$(<qdata/geth/nodekey)
 
 ENABLED_API="admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul"
+GETH_ARGS="--verbosity 6 
+           --datadir qdata 
+           --rpccorsdomain '*'
+           --rpcport $R_PORT 
+           --port $W_PORT 
+           --ws 
+           --wsaddr 0.0.0.0 
+           --wsport $WS_PORT 
+           --wsorigins '*' 
+           --wsapi $ENABLED_API 
+           --nat extip:$CURRENT_NODE_IP
+           --istanbul.blockperiod 5 
+           --syncmode full 
+           --networkid $NETID 
+           --rpc 
+           --rpcaddr 0.0.0.0 
+           --rpcapi $ENABLED_API 
+           --emitcheckpoints 
+           --litaccvalidator.infuraurl $INFURA_URL 
+           --litaccvalidator.contract $CONTRACT_ADDRESS 
+           --litaccvalidator.chainid $CHAIN_ID"
 
 if [ $MINING_FLAG ]; then
-    GLOBAL_ARGS="--istanbul.blockperiod 5 --syncmode full  --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi $ENABLED_API --emitcheckpoints --litaccvalidator.infuraurl $INFURA_URL --litaccvalidator.contract $CONTRACT_ADDRESS --litaccvalidator.chainid $CHAIN_ID"
-else
-    GLOBAL_ARGS="--istanbul.blockperiod 5 --syncmode full --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi $ENABLED_API --emitcheckpoints --litaccvalidator.infuraurl $INFURA_URL --litaccvalidator.contract $CONTRACT_ADDRESS --litaccvalidator.chainid $CHAIN_ID"
+    GETH_ARGS="$GETH_ARGS --mine --minerthreads 1"
 fi
-
+  
 tessera="java -jar /tessera/tessera-app.jar"
 
 echo "[*] Starting Constellation node" > qdata/constellationLogs/constellation_${NODENAME}.log
-
 constellation-node ${NODENAME}.conf >> qdata/constellationLogs/constellation_${NODENAME}.log 2>&1 &
 
 upcheck
 
 echo "[*] Starting ${NODENAME} node" >> qdata/gethLogs/${NODENAME}.log
+echo "[*] geth $GETH_ARGS">> qdata/gethLogs/${NODENAME}.log
 
-if [ $MINING_FLAG ]; then
-    echo "[*] geth --verbosity 6 --datadir qdata --permissioned --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --rpcport $R_PORT --port $W_PORT --nat extip:$CURRENT_NODE_IP --litaccvalidator.infuraurl $INFURA_URL --litaccvalidator.contract $CONTRACT_ADDRESS --litaccvalidator.chainid $CHAIN_ID">> qdata/gethLogs/${NODENAME}.log
-else
-    echo "[*] geth --verbosity 6 --datadir qdata --permissioned --istanbul.blockperiod 5 --syncmode full --networkid $NETID --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --rpcport $R_PORT --port $W_PORT --nat extip:$CURRENT_NODE_IP --litaccvalidator.infuraurl $INFURA_URL --litaccvalidator.contract $CONTRACT_ADDRESS --litaccvalidator.chainid $CHAIN_ID">> qdata/gethLogs/${NODENAME}.log
-fi 
-
-PRIVATE_CONFIG=qdata/$NODENAME.ipc geth --verbosity 6 --datadir qdata $GLOBAL_ARGS --rpccorsdomain "*" --rpcport $R_PORT --port $W_PORT --ws --wsaddr 0.0.0.0 --wsport $WS_PORT --wsorigins '*' --wsapi $ENABLED_API --nat extip:$CURRENT_NODE_IP 2>>qdata/gethLogs/${NODENAME}.log &
+PRIVATE_CONFIG=qdata/$NODENAME.ipc geth $GETH_ARGS 2>>qdata/gethLogs/${NODENAME}.log &
 
 
 cd /root/lition-maker/
