@@ -98,6 +98,7 @@ function readParameters() {
 function readInputs(){  
     
     if [ -z "$NON_INTERACTIVE" ]; then   
+        selectEthNetwork    'Please select ethereum network' ethNetwork $YELLOW
         getInputWithDefault 'Please enter IP Address of existing node' "" pMainIp $RED
         getInputWithDefault 'Please enter Node Manager Port of existing node' 22003 mgoPort $YELLOW
         getInputWithDefault 'Please enter IP Address of this node' "" pCurrentIp $RED
@@ -204,8 +205,15 @@ function copyScripts(){
 function createSetupConf() {
     echo 'NODENAME='${sNode} > ${sNode}/setup.conf
     echo 'ACC_PUBKEY='${sAccountAddress} >> ${sNode}/setup.conf
-    echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ${sNode}/setup.conf
-    echo 'CONTRACT_ADDRESS=0xD754Dc0AF95a4f8615FC990344D9F7327042E658' >> ${sNode}/setup.conf
+    if [ $ethNetwork == "ropsten" ]; then
+      echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ${sNode}/setup.conf
+      echo 'CONTRACT_ADDRESS=0xD754Dc0AF95a4f8615FC990344D9F7327042E658' >> ${sNode}/setup.conf
+    elif [ $ethNetwork == "mainnet" ]; then
+      # TODO: add valid INFURA_URL and CONTRACT_ADDRESS on mainnet when it is supported 
+      # This else should never be entered is mainnet option is handled in selectEthNetwork
+      echo "Invalid ethereum network option: mainnet."
+      exit 1
+    fi
     echo 'CHAIN_ID='${chainId} >> ${sNode}/setup.conf
     echo 'MASTER_IP='${pMainIp} >> ${sNode}/setup.conf
     echo 'WHISPER_PORT='${wPort} >> ${sNode}/setup.conf
