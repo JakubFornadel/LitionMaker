@@ -71,5 +71,5 @@ PRIVATE_CONFIG=qdata/$NODENAME.ipc geth $GETH_ARGS 2>>qdata/gethLogs/${NODENAME}
 
 
 cd /root/lition-maker/
-./start_nodemanager.sh -r $R_PORT -g $NM_PORT -c $CHAIN_ID -m $MINING_FLAG -p $PK
+./start_nodemanager.sh -r $R_PORT -g $NM_PORT -c $CHAIN_ID -m $MINING_FLAG -p $PK -I $INFURA_URL -C $CONTRACT_ADDRESS
     
