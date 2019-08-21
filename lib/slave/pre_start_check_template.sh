@@ -10,7 +10,7 @@ function checkResponse(){
     response=$1
     if [ "$response" = "$rejected" ]
     then
-        echo "Request to Join Network was rejected. Program exiting"
+        echo "Request to Join Network was rejected. Probale cause: You did not vest (validators) or deposit (non-validators). Program exiting"
         exit
     elif [ "$response" = "$timeout" ]
     then
@@ -78,7 +78,8 @@ function requestGenesis(){
        "ip-address":"'${CURRENT_IP}'",
        "nodename":"'${NODENAME}'",
        "acc-pub-key":"'${ACC_PUBKEY}'",
-       "chain-id":"'${CHAIN_ID}'"
+       "chain-id":"'${CHAIN_ID}'",
+       "role":"'${ROLE}'"
     }')
     checkResponse "$response"
 
