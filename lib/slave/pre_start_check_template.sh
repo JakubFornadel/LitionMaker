@@ -30,7 +30,7 @@ function checkResponse(){
 # Function to send post call to go endpoint joinNode 
 function updateNmcAddress(){
     url=http://${MASTER_IP}:${MAIN_NODEMANAGER_PORT}/nmcAddress
-    echo -e $CYAN'Network Manager address Request sent to '$urlG'.'$COLOR_END
+    echo -e $CYAN'Network Manager address Request sent to '$url'.'$COLOR_END
  
     response=$(curl -s -X POST \
     --max-time 310 ${url} \
