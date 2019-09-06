@@ -71,6 +71,11 @@ function readParameters() {
             shift # past argument
             shift # past value
             ;;  
+            -en|--ethnet)
+            ethNetwork="$2"
+            shift # past argument
+            shift # past value
+            ;;
             --validator)
             validator="true"
             shift # past argument
@@ -84,11 +89,11 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$wsPort" && -z "$chainId" ]]; then
+    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$wsPort" && -z "$chainId" && -z "$ethNetwork" ]]; then
         return
     fi
 
-    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$wsPort" || -z "$chainId" ]]; then
+    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$wsPort" || -z "$chainId" || -z "$ethNetwork" ]]; then
         help
     fi
 
@@ -212,6 +217,9 @@ function createSetupConf() {
       # TODO: add valid INFURA_URL and CONTRACT_ADDRESS on mainnet when it is supported 
       # This else should never be entered is mainnet option is handled in selectEthNetwork
       echo "Invalid ethereum network option: mainnet."
+      exit 1
+    else 
+      echo "Invalid ethereum network option: $ethNetwork. Possible values: [ropsten, mainnet]"
       exit 1
     fi
     echo 'CHAIN_ID='${chainId} >> ${sNode}/setup.conf

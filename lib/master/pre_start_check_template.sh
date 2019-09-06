@@ -11,6 +11,16 @@ function readParameters() {
         key="$1"
 
         case $key in
+            -en|--ethnet)
+            ethNetwork="$2"
+            shift # past argument
+            shift # past value
+            ;;
+            -cid|--chainId)
+            chainId="$2"
+            shift # past argument
+            shift # past value
+            ;;  
             --ip)
             pCurrentIp="$2"
             shift # past argument
@@ -54,11 +64,11 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-    if [[ -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$tgoPort" && -z "$wsPort" ]]; then
+    if [[ -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$tgoPort" && -z "$wsPort" && -z "$chainId" && -z "$ethNetwork" ]]; then
         return
     fi
 
-    if [[ -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$tgoPort" || -z "$wsPort" ]]; then
+    if [[ -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$tgoPort" || -z "$wsPort" || -z "$chainId" || -z "$ethNetwork" ]]; then
         help
     fi
 
@@ -95,6 +105,9 @@ function readInputs(){
       # TODO: add valid INFURA_URL and CONTRACT_ADDRESS on mainnet when it is supported 
       # This else should never be entered is mainnet option is handled in selectEthNetwork
       echo "Invalid ethereum network option: mainnet."
+      exit 1
+    else 
+      echo "Invalid ethereum network option: $ethNetwork. Possible values: [ropsten, mainnet]"
       exit 1
     fi
     echo 'CHAIN_ID='${chainId} >> ./setup.conf  
