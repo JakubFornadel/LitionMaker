@@ -58,7 +58,7 @@ For create command:
 NOTE if key is not provided, node keys will be generated
 
 E.g.
-./setup.sh create -n master --ip 10.0.2.15 -r 22000 -w 22001 -c 22002 --nm 22004 --ws 22005 --ethnet ropsten --chainId 0
+./setup.sh create -n master --ip 10.0.2.15 -r 22000 -w 22001 -c 22002 --nm 22003 --ws 22004 --ethnet ropsten --chainId 0
 
 For join as validator command:
   -n, --name              Name of the node to be created
@@ -77,7 +77,7 @@ For join as validator command:
 NOTE if key is not provided, node keys will be generated
 
 E.g.
-./setup.sh join_as_validator -n slave1 --oip 10.0.2.15 --onm 22004 --tip 10.0.2.15 -r 23000 -w 23001 -c 23002 --nm 23004 --ws 23005 --ethnet ropsten --chainId 0
+./setup.sh join_as_validator -n slave1 --oip 10.0.2.15 --onm 22003 --tip 10.0.2.15 -r 22000 -w 22001 -c 22002 --nm 22003 --ws 22004 --ethnet ropsten --chainId 0
 
 For join command:
   -n, --name              Name of the node to be created
@@ -96,7 +96,7 @@ For join command:
 NOTE if key is not provided, node keys will be generated
 
 E.g.
-./setup.sh join -n slave1 --oip 10.0.2.15 --onm 22004 --tip 10.0.2.15 -r 23000 -w 23001 -c 23002 --nm 23004 --ws 2300 --ethnet ropsten --chainId 05
+./setup.sh join -n slave1 --oip 10.0.2.15 --onm 22004 --tip 10.0.2.15 -r 22000 -w 22001 -c 22002 --nm 22003 --ws 22004 --ethnet ropsten --chainId 0
 
 -h, --help              Display this help and exit
 ```

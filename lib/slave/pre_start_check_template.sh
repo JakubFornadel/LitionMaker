@@ -56,10 +56,10 @@ function requestEnode(){
     PATTERN="s|#MASTER_ENODE#|${enode}|g"
     sed -i $PATTERN node/qdata/static-nodes.json 
 
-    chain_id=$(echo $response | jq -r '.chainId')
+    node_chain_id=$(echo $response | jq -r '.chainId')
 
-    if [ ${chain_id} != ${CHAIN_ID} ]; then
-        echo -e $RED'\nYou are trying to connect to a network with different chain id '${chain_id}' !'$COLOR_END
+    if [ $node_chain_id != ${CHAIN_ID} ]; then
+        echo -e $RED'\nYou are trying to connect to a network with different chain id '$node_chain_id' !'$COLOR_END
         exit 1;
     fi
 }

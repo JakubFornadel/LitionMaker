@@ -89,11 +89,11 @@ function readParameters() {
     done
     set -- "${POSITIONAL[@]}" # restore positional parameters
 
-    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$raPort" && -z "$tgoPort" && -z "$wsPort" && -z "$chainId" && -z "$ethNetwork" ]]; then
+    if [[ -z "$sNode" && -z "$pMainIp" && -z "$mgoPort" && -z "$pCurrentIp" && -z "$rPort" && -z "$wPort" && -z "$cPort" && -z "$tgoPort" && -z "$wsPort" && -z "$chainId" && -z "$ethNetwork" ]]; then
         return
     fi
 
-    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$raPort" || -z "$tgoPort" || -z "$wsPort" || -z "$chainId" || -z "$ethNetwork" ]]; then
+    if [[ -z "$sNode" || -z "$pMainIp" || -z "$mgoPort" || -z "$pCurrentIp" || -z "$rPort" || -z "$wPort" || -z "$cPort" || -z "$tgoPort" || -z "$wsPort" || -z "$chainId" || -z "$ethNetwork" ]]; then
         help
     fi
 
