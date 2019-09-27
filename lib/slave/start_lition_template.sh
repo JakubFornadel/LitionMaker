@@ -31,8 +31,7 @@ function upcheck() {
 PK=$(<qdata/geth/nodekey)
 
 ENABLED_API="admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul"
-GETH_ARGS="--verbosity 6
-           --v5disc
+GETH_ARGS="--v5disc
            --datadir qdata 
            --rpccorsdomain '*'
            --rpcport $R_PORT 
