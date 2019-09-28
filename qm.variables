@@ -1,1 +1,1 @@
-dockerImage=litiondev/bc-lition:0.8
+dockerImage=litiondev/bc-lition:1.0-testing
