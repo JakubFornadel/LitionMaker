@@ -113,7 +113,7 @@ More information can be found in the [Lition whitepaper](https://www.lition.io/d
 
 ## Official Docker Containers
 
-The official docker containers can be found under https://cloud.docker.com/u/litiondev/repository/docker/litiondev/bc-lition
+The official docker containers can be found under https://hub.docker.com/r/litiondev/bc-lition/tags
 
 ## References 
 * [Documentation](https://gitlab.com/lition/lition-maker/wikis/home)
