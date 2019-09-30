@@ -116,6 +116,7 @@ More information can be found in the [Lition whitepaper](https://www.lition.io/d
 The official docker containers can be found under https://cloud.docker.com/u/litiondev/repository/docker/litiondev/bc-lition
 
 ## References 
+* [Documentation] (https://gitlab.com/lition/lition-maker/wikis/home)
 * [Lition](https://gitlab.com/lition/lition)
 * [Istanbul BFT Consensus Documentation](https://github.com/ethereum/EIPs/issues/650)
 * [Quorum](https://github.com/jpmorganchase/quorum)
