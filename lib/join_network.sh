@@ -212,7 +212,7 @@ function createSetupConf() {
     echo 'ACC_PUBKEY='${sAccountAddress} >> ${sNode}/setup.conf
     if [ $ethNetwork == "ropsten" ]; then
       echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ${sNode}/setup.conf
-      echo 'CONTRACT_ADDRESS=0x4d81c5319976507513fdf052fB3783A150403A9e' >> ${sNode}/setup.conf
+      echo 'CONTRACT_ADDRESS=0x2caB329322e22ce477eF7775F8a2Bc2F52966bC5' >> ${sNode}/setup.conf
     elif [ $ethNetwork == "mainnet" ]; then
       # TODO: add valid INFURA_URL and CONTRACT_ADDRESS on mainnet when it is supported 
       # This else should never be entered is mainnet option is handled in selectEthNetwork
