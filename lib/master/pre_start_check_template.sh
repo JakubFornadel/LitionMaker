@@ -100,7 +100,7 @@ function readInputs(){
     echo 'WS_PORT='$wsPort >>  ./setup.conf
     if [ $ethNetwork == "ropsten" ]; then
       echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ./setup.conf
-      echo 'CONTRACT_ADDRESS=0xd7fc92865E368411eCB18756D5ac675043d67ba7' >> ./setup.conf
+      echo 'CONTRACT_ADDRESS=0xA8659cee561B7C6118B2FB0D8f73e18aA8aC4ba4' >> ./setup.conf
     elif [ $ethNetwork == "mainnet" ]; then
       # TODO: add valid INFURA_URL and CONTRACT_ADDRESS on mainnet when it is supported 
       # This else should never be entered is mainnet option is handled in selectEthNetwork
