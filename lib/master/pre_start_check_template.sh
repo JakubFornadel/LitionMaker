@@ -102,10 +102,8 @@ function readInputs(){
       echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ./setup.conf
       echo 'CONTRACT_ADDRESS=0xA8659cee561B7C6118B2FB0D8f73e18aA8aC4ba4' >> ./setup.conf
     elif [ $ethNetwork == "mainnet" ]; then
-      # TODO: add valid INFURA_URL and CONTRACT_ADDRESS on mainnet when it is supported 
-      # This else should never be entered is mainnet option is handled in selectEthNetwork
-      echo "Invalid ethereum network option: mainnet."
-      exit 1
+      echo 'INFURA_URL=wss://mainnet.infura.io/ws' >> ./setup.conf
+      echo 'CONTRACT_ADDRESS=0x3b9a052bc3e457A0f278436f058E040A147aB323' >> ./setup.conf
     else 
       echo "Invalid ethereum network option: $ethNetwork. Possible values: [ropsten, mainnet]"
       exit 1

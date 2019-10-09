@@ -48,7 +48,7 @@ function selectEthNetwork() {
 
   echo -e $__clr"$msg: [Enter for default -> Ropsten]\n" \
       $GREEN'1) Ropsten \n' \
-      $PINK'2) Mainnet (not supported yet)'
+      $PINK'2) Mainnet'
   printf $WHITE"option: "$COLOR_END
   
   read option
@@ -61,9 +61,7 @@ function selectEthNetwork() {
     eval $__resultvar='ropsten';;
   2)
     echo "2 selected"
-    eval $__resultvar='mainnet'
-    echo $RED"Unable to continue as mainnet is not yet supported. Please select Ropsten !!!"$COLOR_END
-    exit 1;;
+    eval $__resultvar='mainnet';;
   *)
     echo "Please enter a valid option"
     exit 1;;
