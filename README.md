@@ -9,6 +9,7 @@ Manually editing configuration files and creating nodes is a slow and error-pron
 
 ![Lition Maker 1](img/screenshot1.png)
 
+
 ## Lition Maker provides the following benefits:
 
 - An easy interface to create and manage the Lition Network
