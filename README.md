@@ -124,7 +124,7 @@ The official docker containers can be found under https://hub.docker.com/r/litio
 
 ## Documentation
 
-You can find many imporatn information on [lition-maker wiki](https://gitlab.com/lition/lition-maker/wikis/home) including tutorial how to join as a validator or transactor, 
+You can find many important information on [lition-maker wiki](https://gitlab.com/lition/lition-maker/wikis/home) including tutorials how to join as a validator or transactor, 
 how to register a new sidechain as well as FAQ section.
 
 ## License
