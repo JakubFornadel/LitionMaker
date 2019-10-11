@@ -122,7 +122,10 @@ The official docker containers can be found under https://hub.docker.com/r/litio
 * [Quorum](https://github.com/jpmorganchase/quorum)
 * [Quorum Maker](https://github.com/synechron-finlabs/quorum-maker)
 
+## Documentation
 
+You can find many imporatn information on [lition-maker wiki](https://gitlab.com/lition/lition-maker/wikis/home) including tutorial how to join as a validator or transactor, 
+how to register a new sidechain as well as FAQ section.
 
 ## License
 Lition Maker is licensed under the [Apache License](LICENSE), also include in this repository in the `LICENSE` file
