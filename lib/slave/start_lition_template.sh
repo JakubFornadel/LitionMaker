@@ -41,9 +41,7 @@ GETH_ARGS="--v5disc
            --wsport $WS_PORT 
            --wsorigins '*' 
            --wsapi $ENABLED_API 
-           --nat extip:$CURRENT_NODE_IP
-           --istanbul.blockperiod 5 
-           --syncmode full 
+           --nat extip:$CURRENT_NODE_IP  
            --networkid $NETID 
            --rpc 
            --rpcaddr 0.0.0.0 
@@ -54,7 +52,7 @@ GETH_ARGS="--v5disc
            --litaccvalidator.chainid $CHAIN_ID"
 
 if [ $MINING_FLAG ]; then
-    GETH_ARGS="$GETH_ARGS --mine --minerthreads 1"
+    GETH_ARGS="$GETH_ARGS --mine --minerthreads 1 --syncmode full --istanbul.blockperiod 5"
 fi
   
 tessera="java -jar /tessera/tessera-app.jar"
