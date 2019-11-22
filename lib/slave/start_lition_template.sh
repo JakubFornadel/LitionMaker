@@ -46,7 +46,6 @@ GETH_ARGS="--v5disc
            --rpc 
            --rpcaddr 0.0.0.0 
            --rpcapi $ENABLED_API 
-           --emitcheckpoints 
            --litaccvalidator.infuraurl $INFURA_URL 
            --litaccvalidator.contract $CONTRACT_ADDRESS 
            --litaccvalidator.chainid $CHAIN_ID"
