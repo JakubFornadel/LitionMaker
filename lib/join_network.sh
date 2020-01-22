@@ -211,10 +211,10 @@ function createSetupConf() {
     echo 'NODENAME='${sNode} > ${sNode}/setup.conf
     echo 'ACC_PUBKEY='${sAccountAddress} >> ${sNode}/setup.conf
     if [ $ethNetwork == "ropsten" ]; then
-      echo 'INFURA_URL=wss://ropsten.infura.io/ws' >> ${sNode}/setup.conf
+      echo 'INFURA_URL=wss://ropsten.infura.io/ws/v3/5cd24295acd74cc1b9dd5ced7b4bb6a9' >> ${sNode}/setup.conf
       echo 'CONTRACT_ADDRESS=0xfc80ab40bbf9cf9faacad6407a9768e7d3ae92a3' >> ${sNode}/setup.conf
     elif [ $ethNetwork == "mainnet" ]; then
-      echo 'INFURA_URL=wss://mainnet.infura.io/ws' >> ${sNode}/setup.conf
+      echo 'INFURA_URL=wss://mainnet.infura.io/ws/v3/5cd24295acd74cc1b9dd5ced7b4bb6a9' >> ${sNode}/setup.conf
       echo 'CONTRACT_ADDRESS=0x7a79868b8375131B4c6A681b112109A51EEa0a6C' >> ${sNode}/setup.conf
     else 
       echo "Invalid ethereum network option: $ethNetwork. Possible values: [ropsten, mainnet]"
